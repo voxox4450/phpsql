@@ -1,0 +1,26 @@
+<!-- includes/header.php -->
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Moja Aplikacja</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/phpsql/index.php">Strona główna</a></li>
+                <?php
+                if (isset($_SESSION['username'])) {
+                    echo '<li><a href="/phpsql/pages/user_panel.php">Panel użytkownika</a></li>';
+                    echo '<li><a href="/phpsql/pages/logout.php">Wyloguj</a></li>';
+                } else {
+                    echo '<li><a href="/phpsql/pages/login.php">Zaloguj</a></li>';
+                    echo '<li><a href="/phpsql/pages/register.php">Zarejestruj się</a></li>';
+                }
+                ?>
+            </ul>
+        </nav>
+    </header>
