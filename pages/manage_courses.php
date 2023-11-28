@@ -1,31 +1,35 @@
 <?php
-// manage_courses.php
+// user_panel.php
+
 session_start();
 
 // Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+    header("Location: /phpsql/pages/login.php");
     exit;
 }
 
 include('../settings.php');
 
 
-// Pobierz listę kursów z bazy danych
-$courses = array(); // Inicjalizacja tablicy na kursy
+// Pobierz informacje o zalogowanym użytkowniku (możesz pobierać więcej informacji z bazy danych, jeśli potrzebujesz)
+$username = $_SESSION['username'];
 
-$selectCoursesSql = "SELECT * FROM courses";
-$coursesResult = $conn->query($selectCoursesSql);
+// Pobierz kursy użytkownika z bazy danych
+$selectUserCoursesSql = "SELECT * FROM courses WHERE creator_id IN (SELECT id FROM users WHERE username='$username')";
+$userCoursesResult = $conn->query($selectUserCoursesSql);
 
-if ($coursesResult->num_rows > 0) {
-    while ($courseData = $coursesResult->fetch_assoc()) {
-        $courses[] = $courseData;
+$userCourses = array(); // Inicjalizacja tablicy do przechowywania kursów użytkownika
+
+if ($userCoursesResult->num_rows > 0) {
+    while ($courseData = $userCoursesResult->fetch_assoc()) {
+        $userCourses[] = $courseData;
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,30 +42,27 @@ if ($coursesResult->num_rows > 0) {
     <div class="container">
         <h2>Zarządzaj Kursami</h2>
         
+        <!-- Dodaj kurs -->
+        <a href="/phpsql/pages/add_course.php">Dodaj kurs</a>
+
+        <!-- Wyświetl kursy użytkownika w listach rozwijanych -->
         <?php
-        // Wyświetlanie komunikatu błędu (jeśli istnieje)
-        if (isset($_GET['error'])) {
-            echo '<p class="error-message">' . htmlspecialchars($_GET['error']) . '</p>';
+        if (!empty($userCourses)) {
+            foreach ($userCourses as $course) {
+                echo '<details>';
+                echo '<summary>' . $course['title'] . '</summary>';
+                echo '<ul>';
+                echo '<li><a href="/phpsql/pages/edit_course.php?id=' . $course['id'] . '">Edytuj</a></li>';
+                echo '<li><a href="/phpsql/pages/view_course.php?id=' . $course['id'] . '">Wyświetl</a></li>';
+                echo '<li><a href="/phpsql/pages/delete_course.php?id=' . $course['id'] . '">Usuń</a></li>';
+                echo '</ul>';
+                echo '</details>';
+            }
+        } else {
+            echo '<p>Brak dostępnych kursów.</p>';
         }
         ?>
-
-        <ul>
-            <li><a href="/phpsql/pages/add_course.php">Dodaj</a></li>
-            <li><a href="/phpsql/pages/edit_course.php">Edytuj</a></li>
-            <li><a href="/phpsql/pages/view_course.php">Wyświetl</a></li>
-            <li><a href="/phpsql/pages/delete_course.php">Usuń</a></li>
-        </ul>
-
-        <h3>Lista Kursów</h3>
-        <ul>
-            <?php
-            foreach ($courses as $course) {
-                echo '<li>' . $course['title'] . ' - <a href="delete_course.php?id=' . $course['id'] . '">Usuń</a></li>';
-            }
-            ?>
-        </ul>
     </div>
-
     <?php include '../includes/footer.php'; ?>
 </body>
 </html>
