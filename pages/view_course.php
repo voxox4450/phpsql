@@ -59,7 +59,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
             $ratings[] = $ratingData['rating'];
         }
     }
+}
 
+include '../includes/header.php';
+?>
+
+<div class="container">
+    <h2>Przeglądaj Kurs</h2>
+    <?php
+       
     // Wyświetl dane
     echo '<p>Tytuł: ' . $title . '</p>';
     echo '<p>Opis: ' . $description . '</p>';
@@ -81,15 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
 
     // Dodaj ten link tylko dla użytkownika, który ocenił kurs
     echo '<a href="edit_rating.php?course_id=' . $course_id . '">Edytuj moją ocenę</a>';
-}
-
-include '../includes/header.php';
-?>
-
-<div class="container">
-    <h2>Przeglądaj Kurs</h2>
-    <?php
-        // ... Treść strony przeglądania kursu ...
     ?>
 </div>
 
