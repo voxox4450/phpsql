@@ -9,7 +9,8 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-// Poniżej możesz umieścić kod HTML/CSS/PHP do przeglądania dostępnych kursów
+include('../settings.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -25,10 +26,33 @@ if (!isset($_SESSION['username'])) {
 
     <div class="container">
         <h2>Dostępne Kursy</h2>
-        <!-- Dodaj kod do wyświetlania dostępnych kursów -->
+        
 
-        <!-- Poniżej umieść kod HTML/CSS/PHP do wyświetlania listy kursów -->
-    </div>
+<div class="container">
+    <h2>Dostępne Kursy</h2>
+
+    <?php
+    
+    $sql = "SELECT * FROM courses";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo '<div class="course">';
+            echo '<h3>' . $row['title'] . '</h3>';
+            echo '<p>' . $row['description'] . '</p>';
+            echo '<p>Instruktor: ' . $row['instructor'] . '</p>';
+            echo '<a href="view_course.php?id=' . $row['id'] . '">Przeglądaj</a>';
+            echo '</div>';
+        }
+    } else {
+        echo '<p>Brak dostępnych kursów.</p>';
+    }
+    ?>
+
+</div>
+
+
 
     <?php include '../includes/footer.php'; ?>
 </body>
