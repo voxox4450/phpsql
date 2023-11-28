@@ -1,3 +1,20 @@
+<?php
+// user_panel.php
+
+session_start();
+
+// Sprawdzenie, czy użytkownik jest zalogowany
+if (!isset($_SESSION['username'])) {
+    header("Location: /phpsql/pages/login.php");
+    exit;
+}
+
+// Pobierz informacje o zalogowanym użytkowniku (możesz pobierać więcej informacji z bazy danych, jeśli potrzebujesz)
+$username = $_SESSION['username'];
+
+// Poniżej możesz umieścić kod HTML/CSS, który wyświetli panel użytkownika
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

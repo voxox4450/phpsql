@@ -3,16 +3,12 @@
 session_start();
 
 // Sprawdzenie, czy użytkownik jest zalogowany
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit;
-}
+// if (!isset($_SESSION['username'])) {
+//     header("Location: login.php");
+//     exit;
+// }
 
-// Połączenie z bazą danych
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "online_courses";
+include('../settings.php');
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -43,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
     echo '<a href="edit_rating.php?course_id=' . $course_id . '">Edytuj moją ocenę</a>';
 }
 
-include 'includes/header.php';
+include '../includes/header.php'; 
 ?>
 
 <div class="container">
@@ -92,4 +88,4 @@ include 'includes/header.php';
     ?>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

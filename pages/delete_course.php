@@ -8,11 +8,7 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-// Połączenie z bazą danych
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "online_courses";
+include('../settings.php');
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

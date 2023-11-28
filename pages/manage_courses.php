@@ -1,3 +1,20 @@
+<?php
+// user_panel.php
+
+session_start();
+
+// Sprawdzenie, czy użytkownik jest zalogowany
+if (!isset($_SESSION['username'])) {
+    header("Location: /phpsql/pages/login.php");
+    exit;
+}
+
+// Pobierz informacje o zalogowanym użytkowniku (możesz pobierać więcej informacji z bazy danych, jeśli potrzebujesz)
+$username = $_SESSION['username'];
+
+// Poniżej możesz umieścić kod HTML/CSS, który wyświetli panel użytkownika
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,13 +24,17 @@
     <title>Zarządzaj Kursami</title>
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <?php include '../includes/header.php'; ?>
 
     <div class="container">
         <h2>Zarządzaj Kursami</h2>
-        <!-- Tutaj możesz wyświetlać listę kursów użytkownika z opcjami edycji i usuwania -->
+        <ul>
+            <li><a href="/phpsql/pages/add_course.php">Dodaj</a></li>
+            <li><a href="/phpsql/pages/edit_course.php">Edytuj</a></li>
+            <li><a href="/phpsql/pages/view_course.php">Wyświetl</a></li>
+            <li><a href="/phpsql/pages/delete_course.php">Usuń</a></li>
+        </ul>
     </div>
-
-    <?php include 'includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>

@@ -30,11 +30,9 @@ $username = $_SESSION['username'];
         <h2>Witaj, <?php echo $username; ?>, w Twoim Panelu Użytkownika!</h2>
         <!-- Dodaj linki do różnych funkcji dostępnych dla zalogowanego użytkownika -->
         <ul>
-            <li><a href="/phpsql/pages/profile.php">Przejdź do Profilu</a></li>
-            <li><a href="/phpsql/pages/browse_courses.php">Przeglądaj Dostępne Kursy</a></li>
+            <li><a href="/phpsql/pages/manage_courses.php">Zarządzak swoimi kursami</a></li>
             <li><a href="/phpsql/pages/edit_profile.php">Edytuj Profil</a></li>
             <li><a href="/phpsql/pages/change_password.php">Zmień Hasło</a></li>
-            <li><a href="/phpsql/pages/logout.php">Wyloguj</a></li>
         </ul>
     </div>
 
