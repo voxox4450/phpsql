@@ -12,6 +12,15 @@ if (!isset($_SESSION['username'])) {
 // Pobierz informacje o zalogowanym użytkowniku (możesz pobierać więcej informacji z bazy danych, jeśli potrzebujesz)
 $username = $_SESSION['username'];
 
+// Połączenie z bazą danych
+include '../settings.php';
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 // Poniżej możesz umieścić kod HTML/CSS, który wyświetli panel użytkownika
 ?>
 
@@ -20,7 +29,7 @@ $username = $_SESSION['username'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Dodaj Kurs</title>
 </head>
 <body>
@@ -35,8 +44,8 @@ $username = $_SESSION['username'];
             <label for="description">Opis kursu:</label>
             <textarea name="description" rows="4" required></textarea>
 
-            <label for="instructor">Instruktor:</label>
-            <input type="text" name="instructor" required>
+            <!-- Użyj ukrytego pola, aby przekazać ID twórcy kursu -->
+            <input type="hidden" name="creator_id" value="<?php echo $_SESSION['user_id']; ?>">
 
             <button type="submit">Dodaj kurs</button>
         </form>
