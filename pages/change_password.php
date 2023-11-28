@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirmNewPassword = $_POST['confirm_new_password'];
 
     // Sprawdź, czy aktualne hasło jest poprawne
-    if (password_verify($currentPassword, $row['password_hash'])) {
+    if (password_verify($currentPassword, $row['password'])) {
         // Aktualne hasło jest poprawne
         if ($newPassword === $confirmNewPassword) {
             // Nowe hasło zostało potwierdzone

@@ -16,9 +16,11 @@
                 if (isset($_SESSION['username'])) {
                     echo '<li><a href="/phpsql/pages/user_panel.php">Panel użytkownika</a></li>';
                     echo '<li><a href="/phpsql/pages/logout.php">Wyloguj</a></li>';
+                    echo '<li><a href="/phpsql/pages/courses.php">Kursy</a></li>';
                 } else {
                     echo '<li><a href="/phpsql/pages/login.php">Zaloguj</a></li>';
                     echo '<li><a href="/phpsql/pages/register.php">Zarejestruj się</a></li>';
+                    echo '<li><a href="/phpsql/pages/courses.php">Kursy</a></li>';
                 }
                 ?>
             </ul>
