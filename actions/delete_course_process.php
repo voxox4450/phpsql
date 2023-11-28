@@ -19,6 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
     
     // Użycie prepared statement do zabezpieczenia przed SQL Injection
     $stmt = $conn->prepare($deleteCourseSql);
+
+    if (!$stmt) {
+        die("Prepared statement error: " . $conn->error);
+    }
+
     $stmt->bind_param("i", $course_id); // "i" oznacza, że oczekujemy na parametr typu integer
     $stmt->execute();
 
