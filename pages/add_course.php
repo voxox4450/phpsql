@@ -24,11 +24,11 @@ $username = $_SESSION['username'];
     <title>Dodaj Kurs</title>
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <?php include '../includes/header.php'; ?>
 
     <div class="container">
         <h2>Dodaj nowy kurs</h2>
-        <form action="add_course_process.php" method="post">
+        <form action="/phpsql/actions/add_course_process.php" method="post">
             <label for="title">Tytuł kursu:</label>
             <input type="text" name="title" required>
 
@@ -42,6 +42,6 @@ $username = $_SESSION['username'];
         </form>
     </div>
 
-    <?php include 'includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>
