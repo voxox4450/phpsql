@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
         <p>Tytuł: <?php echo $title; ?></p>
         <p>Opis: <?php echo $description; ?></p>
         <p>Twórca: <?php echo $creator_name; ?></p>
-        <form action="delete_course_process.php" method="post">
+        <form action="/phpsql/actions/delete_course_process.php" method="post">
             <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
             <button type="submit">Usuń</button>
         </form>
