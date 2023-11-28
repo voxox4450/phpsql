@@ -13,7 +13,7 @@ if (!isset($_SESSION['username'])) {
 $username = $_SESSION['username'];
 
 // Połączenie z bazą danych
-include '../settings.php';
+include 'phpsql/settings.php';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
