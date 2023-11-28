@@ -134,6 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
     echo '<a href="edit_rating.php?course_id=' . $course_id . '">Edytuj moją ocenę</a>';
 }
 
+include '../includes/header.php'; 
 ?>
 
 <div class="container">
@@ -145,4 +146,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
 
 <?php include '../includes/footer.php'; ?>
 
+    
+    <?php
+        // Tutaj dodaj kod do wyświetlania ocen kursu na stronie
 
+        // Przykładowe dane
+        $ratings = array("Ocena 1", "Ocena 2", "Ocena 3");
+
+        // Wyświetl oceny
+        echo '<h3>Oceny kursu:</h3>';
+        echo '<ul>';
+        foreach ($ratings as $rating) {
+            echo '<li>' . $rating . '</li>';
+        }
+        echo '</ul>';
+    ?>
+</div>
+
+<?php include '../includes/footer.php'; ?>
