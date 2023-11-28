@@ -2,18 +2,9 @@
 <?php
 session_start();
 
-// Sprawdzenie, czy użytkownik jest zalogowany
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit;
-}
-
 include('../settings.php');
 
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Pobierz ID kursu z parametru w URL
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
@@ -84,12 +75,30 @@ include '../includes/header.php';
     }
     echo '</ul>';
 
-    // Dodaj ten link tylko dla użytkownika, który ocenił kurs
-    echo '<a href="delete_rating.php?course_id=' . $course_id . '">Usuń moją ocenę</a>';
-    echo '<br>';
-    echo '<br>';
-    // Dodaj ten link tylko dla użytkownika, który ocenił kurs
-    echo '<a href="edit_rating.php?course_id=' . $course_id . '">Edytuj moją ocenę</a>';
+    // Dodaj formularz oceny tylko dla zalogowanych użytkowników
+    if (isset($_SESSION['user_id'])) {
+        echo '<h3>Oceń kurs:</h3>';
+        echo '<form method="post" action="view_course.php?id=' . $course_id . '">';
+        echo '<label for="rating">Wybierz ocenę od 1 do 5:</label>';
+        echo '<select name="rating" required>';
+        echo '<option value="1">1 gwiazdka</option>';
+        echo '<option value="2">2 gwiazdki</option>';
+        echo '<option value="3">3 gwiazdki</option>';
+        echo '<option value="4">4 gwiazdki</option>';
+        echo '<option value="5">5 gwiazdek</option>';
+        echo '</select>';
+        echo '<button type="submit">Oceń</button>';
+        echo '</form>';
+
+        // Dodaj ten link tylko dla użytkownika, który ocenił kurs
+        echo '<a href="delete_rating.php?course_id=' . $course_id . '">Usuń moją ocenę</a>';
+        echo '<br>';
+        echo '<br>';
+        // Dodaj ten link tylko dla użytkownika, który ocenił kurs
+        echo '<a href="edit_rating.php?course_id=' . $course_id . '">Edytuj moją ocenę</a>';
+    } else {
+        echo '<p>Zaloguj się, aby dodać, edytować lub usunąć ocenę.</p>';
+    }
     ?>
 </div>
 
