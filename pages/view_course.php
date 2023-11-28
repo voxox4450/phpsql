@@ -86,7 +86,8 @@ include '../includes/header.php';
 
     // Dodaj ten link tylko dla użytkownika, który ocenił kurs
     echo '<a href="delete_rating.php?course_id=' . $course_id . '">Usuń moją ocenę</a>';
-
+    echo '<br>';
+    echo '<br>';
     // Dodaj ten link tylko dla użytkownika, który ocenił kurs
     echo '<a href="edit_rating.php?course_id=' . $course_id . '">Edytuj moją ocenę</a>';
     ?>
