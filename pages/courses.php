@@ -29,7 +29,6 @@ include '../includes/header.php';
     <title>Kursy</title>
 </head>
 <body>
-    <?php include '../includes/header.php'; ?>
 
     <div class="container">
         <h2>Kursy</h2>
