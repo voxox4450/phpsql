@@ -8,11 +8,7 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-// Połączenie z bazą danych
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "online_courses";
+include('../settings.php');
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -27,11 +23,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $instructor = $_POST['instructor'];
     $username = $_SESSION['username'];
 
-    // Tutaj dodaj kod do dodawania kursu do bazy danych
-    // np. INSERT INTO courses (title, description, instructor) VALUES ('$title', '$description', '$instructor');
+$insertSql = "INSERT INTO courses (title, description, instructor) VALUES ('$title', '$description', '$instructor')";
 
+if ($conn->query($insertSql) === TRUE) {
     // Pomyślne dodanie kursu, przekieruj na stronę z kursami
-    header("Location: courses.php");
+    header("Location: browse_courses.php");
+    exit;
+} else {
+    // Błąd podczas dodawania kursu
+    $error_message = "Błąd podczas dodawania kursu. Spróbuj ponownie.";
+}
+    header("Location: /phpsql/pages/courses.php");
 }
 
 $conn->close();
