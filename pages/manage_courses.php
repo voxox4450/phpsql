@@ -9,10 +9,23 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
+include('../settings.php');
+
+
 // Pobierz informacje o zalogowanym użytkowniku (możesz pobierać więcej informacji z bazy danych, jeśli potrzebujesz)
 $username = $_SESSION['username'];
 
-// Poniżej możesz umieścić kod HTML/CSS, który wyświetli panel użytkownika
+// Pobierz kursy użytkownika z bazy danych
+$selectUserCoursesSql = "SELECT * FROM courses WHERE creator_id IN (SELECT id FROM users WHERE username='$username')";
+$userCoursesResult = $conn->query($selectUserCoursesSql);
+
+$userCourses = array(); // Inicjalizacja tablicy do przechowywania kursów użytkownika
+
+if ($userCoursesResult->num_rows > 0) {
+    while ($courseData = $userCoursesResult->fetch_assoc()) {
+        $userCourses[] = $courseData;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,12 +41,27 @@ $username = $_SESSION['username'];
 
     <div class="container">
         <h2>Zarządzaj Kursami</h2>
-        <ul>
-            <li><a href="/phpsql/pages/add_course.php">Dodaj</a></li>
-            <li><a href="/phpsql/pages/edit_course.php">Edytuj</a></li>
-            <li><a href="/phpsql/pages/view_course.php">Wyświetl</a></li>
-            <li><a href="/phpsql/pages/delete_course.php">Usuń</a></li>
-        </ul>
+        
+        <!-- Dodaj kurs -->
+        <a href="/phpsql/pages/add_course.php">Dodaj kurs</a>
+
+        <!-- Wyświetl kursy użytkownika w listach rozwijanych -->
+        <?php
+        if (!empty($userCourses)) {
+            foreach ($userCourses as $course) {
+                echo '<details>';
+                echo '<summary>' . $course['title'] . '</summary>';
+                echo '<ul>';
+                echo '<li><a href="/phpsql/pages/edit_course.php?id=' . $course['id'] . '">Edytuj</a></li>';
+                echo '<li><a href="/phpsql/pages/view_course.php?id=' . $course['id'] . '">Wyświetl</a></li>';
+                echo '<li><a href="/phpsql/pages/delete_course.php?id=' . $course['id'] . '">Usuń</a></li>';
+                echo '</ul>';
+                echo '</details>';
+            }
+        } else {
+            echo '<p>Brak dostępnych kursów.</p>';
+        }
+        ?>
     </div>
     <?php include '../includes/footer.php'; ?>
 </body>
