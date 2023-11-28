@@ -1,10 +1,7 @@
-<!-- pages/view_course.php -->
 <?php
 session_start();
 
 include('../settings.php');
-
-$title = $description = $creator_name = $average_rating = $ratings = "";
 
 // Pobierz ID kursu z parametru w URL
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
@@ -58,7 +55,6 @@ include '../includes/header.php';
 <div class="container">
     <h2>Przeglądaj Kurs</h2>
     <?php
-       
     // Wyświetl dane
     echo '<p>Tytuł: ' . $title . '</p>';
     echo '<p>Opis: ' . $description . '</p>';
@@ -70,15 +66,20 @@ include '../includes/header.php';
     // Wyświetl oceny
     echo '<h3>Oceny kursu:</h3>';
     echo '<ul>';
-    foreach ($ratings as $rating) {
-        echo '<li>' . $rating . '</li>';
+    if (!empty($ratings)) {
+        foreach ($ratings as $rating) {
+            echo '<li>' . $rating . '</li>';
+        }
+    } else {
+        echo '<li>Brak ocen.</li>';
     }
     echo '</ul>';
 
     // Dodaj formularz oceny tylko dla zalogowanych użytkowników
     if (isset($_SESSION['user_id'])) {
         echo '<h3>Oceń kurs:</h3>';
-        echo '<form method="post" action="view_course.php?id=' . $course_id . '">';
+        echo '<form method="post" action="../actions/rate_course_process.php">';
+        echo '<input type="hidden" name="course_id" value="' . $course_id . '">';
         echo '<label for="rating">Wybierz ocenę od 1 do 5:</label>';
         echo '<select name="rating" required>';
         echo '<option value="1">1 gwiazdka</option>';
@@ -89,15 +90,6 @@ include '../includes/header.php';
         echo '</select>';
         echo '<button type="submit">Oceń</button>';
         echo '</form>';
-
-        // Dodaj ten link tylko dla użytkownika, który ocenił kurs
-        echo '<a href="delete_rating.php?course_id=' . $course_id . '">Usuń moją ocenę</a>';
-        echo '<br>';
-        echo '<br>';
-        // Dodaj ten link tylko dla użytkownika, który ocenił kurs
-        echo '<a href="edit_rating.php?course_id=' . $course_id . '">Edytuj moją ocenę</a>';
-    } else {
-        echo '<p>Zaloguj się, aby dodać, edytować lub usunąć ocenę.</p>';
     }
     ?>
 </div>
