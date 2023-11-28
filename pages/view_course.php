@@ -4,7 +4,7 @@ session_start();
 
 include('../settings.php');
 
-
+$title = $description = $creator_name = $average_rating = $ratings = "";
 
 // Pobierz ID kursu z parametru w URL
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
