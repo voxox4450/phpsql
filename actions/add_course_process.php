@@ -27,7 +27,7 @@ $insertSql = "INSERT INTO courses (title, description, instructor) VALUES ('$tit
 
 if ($conn->query($insertSql) === TRUE) {
     // Pomyślne dodanie kursu, przekieruj na stronę z kursami
-    header("Location: browse_courses.php");
+    header("Location: /phpsql/pages/browse_courses.php");
     exit;
 } else {
     // Błąd podczas dodawania kursu
