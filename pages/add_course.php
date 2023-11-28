@@ -28,7 +28,7 @@ $username = $_SESSION['username'];
 
     <div class="container">
         <h2>Dodaj nowy kurs</h2>
-        <form action="add_course_process.php" method="post">
+        <form action="/phpsql/actions/add_course_process.php" method="post">
             <label for="title">Tytuł kursu:</label>
             <input type="text" name="title" required>
 
