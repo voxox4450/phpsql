@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-include('../settings.php');
+include('/settings.php');
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
