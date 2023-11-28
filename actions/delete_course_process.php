@@ -14,29 +14,39 @@ include('../settings.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
     $course_id = $_POST['course_id'];
 
-    // Przygotowanie i wykonanie zapytania SQL z użyciem prepared statement
-    $deleteCourseSql = "DELETE FROM courses WHERE id=?";
-    
-    // Użycie prepared statement do zabezpieczenia przed SQL Injection
-    $stmt = $conn->prepare($deleteCourseSql);
+    // Usunięcie rekordów z tabeli course_ratings związanych z danym kursem
+    $deleteRatingsSql = "DELETE FROM course_ratings WHERE course_id=?";
+    $stmtRatings = $conn->prepare($deleteRatingsSql);
 
-    if (!$stmt) {
-        die("Prepared statement error: " . $conn->error);
+    if (!$stmtRatings) {
+        die("Prepared statement error (ratings): " . $conn->error);
     }
 
-    $stmt->bind_param("i", $course_id); // "i" oznacza, że oczekujemy na parametr typu integer
-    $stmt->execute();
+    $stmtRatings->bind_param("i", $course_id);
+    $stmtRatings->execute();
+    $stmtRatings->close();
 
-    if ($stmt->affected_rows > 0) {
+    // Usunięcie kursu
+    $deleteCourseSql = "DELETE FROM courses WHERE id=?";
+    $stmtCourse = $conn->prepare($deleteCourseSql);
+
+    if (!$stmtCourse) {
+        die("Prepared statement error (course): " . $conn->error);
+    }
+
+    $stmtCourse->bind_param("i", $course_id);
+    $stmtCourse->execute();
+
+    if ($stmtCourse->affected_rows > 0) {
         // Pomyślne usunięcie kursu, przekieruj na stronę z zarządzaniem kursami
         header("Location: /phpsql/pages/manage_courses.php");
     } else {
         // Błąd usuwania kursu, przekieruj na stronę z zarządzaniem kursami z komunikatem błędu
-        header("Location: /phpsql/pages/manage_courses.php?error=" . urlencode("Błąd usuwania kursu: " . $stmt->error));
+        header("Location: /phpsql/pages/manage_courses.php?error=" . urlencode("Błąd usuwania kursu: " . $stmtCourse->error));
     }
 
     // Zamykamy prepared statement
-    $stmt->close();
+    $stmtCourse->close();
 }
 
 // Zamykamy połączenie

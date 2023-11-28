@@ -42,7 +42,7 @@ if ($userCoursesResult->num_rows > 0) {
     // Sprawdzenie, czy istnieje parametr error w adresie URL
     if (isset($_GET['error'])) {
     $error_message = urldecode($_GET['error']);
-    echo '<div style="color: red;">Błąd: ' . $error_message . '</div>';
+    echo '<div style="color: red;">' . $error_message . '</div>';
 }
     ?>
 
