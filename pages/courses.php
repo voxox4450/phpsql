@@ -18,13 +18,13 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>Moje Kursy</title>
+    <title>Kursy</title>
 </head>
 <body>
     <?php include '../includes/header.php'; ?>
 
     <div class="container">
-        <h2>Moje Kursy</h2>
+        <h2>Kursy</h2>
         <!-- Tutaj możesz wyświetlać kursy użytkownika -->
     </div>
 
