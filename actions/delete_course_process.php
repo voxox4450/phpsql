@@ -20,10 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
 
     if ($conn->query($deleteCourseSql) === TRUE) {
         // Pomyślne usunięcie kursu, przekieruj na stronę z zarządzaniem kursami
-        header("Location: manage_courses.php");
+        header("Location: /phpsql/pages/manage_courses.php");
     } else {
         // Błąd usuwania kursu, przekieruj na stronę z zarządzaniem kursami z komunikatem błędu
-        header("Location: manage_courses.php?error=" . urlencode("Błąd usuwania kursu: " . $conn->error));
+        header("Location: /phpsql/pages/manage_courses.php?error=" . urlencode("Błąd usuwania kursu: " . $conn->error));
     }
 }
 
