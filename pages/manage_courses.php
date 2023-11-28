@@ -37,10 +37,19 @@ if ($userCoursesResult->num_rows > 0) {
     <title>Zarządzaj Kursami</title>
 </head>
 <body>
-    <?php include '../includes/header.php'; ?>
+    <?php include '../includes/header.php'; 
+    
+    // Sprawdzenie, czy istnieje parametr error w adresie URL
+    if (isset($_GET['error'])) {
+    $error_message = urldecode($_GET['error']);
+    echo '<div style="color: red;">Błąd: ' . $error_message . '</div>';
+}
+    ?>
 
     <div class="container">
         <h2>Zarządzaj Kursami</h2>
+
+        
         
         <!-- Dodaj kurs -->
         <a href="/phpsql/pages/add_course.php">Dodaj kurs</a>
