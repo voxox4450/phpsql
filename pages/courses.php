@@ -2,14 +2,22 @@
 // courses.php
 session_start();
 
-// Sprawdzenie, czy użytkownik jest zalogowany
-//if (!isset($_SESSION['username'])) {
-  //  header("Location: login.php");
-    //exit;
-//}
+include('../settings.php');
 
-// Tutaj możesz dodać kod do pobierania kursów z bazy danych
-// i wyświetlania ich na stronie
+
+// Pobierz kursy z bazy danych
+$selectCoursesSql = "SELECT * FROM courses";
+$coursesResult = $conn->query($selectCoursesSql);
+
+$courses = array(); // Inicjalizacja tablicy do przechowywania kursów
+
+if ($coursesResult->num_rows > 0) {
+    while ($courseData = $coursesResult->fetch_assoc()) {
+        $courses[] = $courseData;
+    }
+}
+
+include '../includes/header.php';
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +33,21 @@ session_start();
 
     <div class="container">
         <h2>Kursy</h2>
-        <!-- Tutaj możesz wyświetlać kursy użytkownika -->
+        <?php
+        // Wyświetl kursy
+        if (!empty($courses)) {
+            foreach ($courses as $course) {
+                echo '<div class="course">';
+                echo '<h3>' . $course['title'] . '</h3>';
+                echo '<p>' . $course['description'] . '</p>';
+                echo '<p>Instruktor: ' . $course['creator_id'] . '</p>'; // Tutaj może być imię, zależy od struktury bazy danych
+                echo '<a href="view_course.php?id=' . $course['id'] . '">Przeglądaj</a>';
+                echo '</div>';
+            }
+        } else {
+            echo '<p>Brak dostępnych kursów.</p>';
+        }
+        ?>
     </div>
 
     <?php include '../includes/footer.php'; ?>
