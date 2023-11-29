@@ -14,30 +14,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
     $user_id = $_SESSION['user_id'];
     $course_id = $_POST['course_id'];
 
-    // Sprawdź, czy użytkownik już ukończył ten kurs
-    $checkCompletionSql = "SELECT * FROM completed_courses WHERE user_id=$user_id AND course_id=$course_id";
-    $result = $conn->query($checkCompletionSql);
+// Zabezpieczenie przed atakami SQL Injection
+$selectCourseSql = "SELECT * FROM courses WHERE id=?";
+$stmt = $conn->prepare($selectCourseSql);
+$stmt->bind_param("i", $course_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    if ($result->num_rows == 0) {
-        // Użytkownik jeszcze nie ukończył kursu, dodaj do tabeli completed_courses
-        $insertCompletionSql = "INSERT INTO completed_courses (user_id, course_id, completion_date) VALUES ($user_id, $course_id, CURDATE())";
-        if ($conn->query($insertCompletionSql)) {
-            echo "Kurs został rozpoczęty.";
-        } else {
-            echo "Błąd podczas rozpoczynania kursu: " . $conn->error;
-        }
-    } else {
-        // Użytkownik już ukończył kurs, zaktualizuj datę ukończenia
-        $updateCompletionSql = "UPDATE completed_courses SET completion_date = CURDATE() WHERE user_id=$user_id AND course_id=$course_id";
-        if ($conn->query($updateCompletionSql)) {
-            echo "Kurs został ponownie ukończony.";
-        } else {
-            echo "Błąd podczas ponownego ukończania kursu: " . $conn->error;
-        }
-    }
+if ($result->num_rows > 0) {
+    $courseData = $result->fetch_assoc();
+    $title = $courseData['title'];
 } else {
-    echo "Błędne dane przesłane do formularza.";
+    echo "Brak kursu o podanym ID.";
+    exit;
 }
 
-$conn->close();
+include '../includes/header.php';
+
+echo '<div class="container">';
+echo '<h2>Przeglądaj Kurs</h2>';
+echo '<p>Tytuł: ' . $title . '</p>';
+
+// Dodaj przycisk "Ukończ kurs"
+echo '<form method="post" action="/phpsql/pages/start_course_process.php">';
+echo '<input type="hidden" name="course_id" value="' . $course_id . '">';
+echo '<button type="submit">Ukończ kurs</button>';
+echo '</form>';
+
+echo '</div>'; // Zamknij kontener
+
+// Zamykanie połączenia z bazą danych
+$stmt->close();
+include '../includes/footer.php';
 ?>
+
