@@ -2,7 +2,7 @@
 // user_panel.php
 
 session_start();
-
+include('../settings.php');
 // Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['username'])) {
     header("Location: /phpsql/pages/login.php");
