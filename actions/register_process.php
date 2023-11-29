@@ -8,8 +8,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Sprawdzenie, czy użytkownik o podanej nazwie już istnieje
-    $check_user_sql = "SELECT * FROM users WHERE username='$username'";
-    $check_user_result = $conn->query($check_user_sql);
+    $check_user_sql = "SELECT * FROM users WHERE username=?";
+    $stmt = $conn->prepare($check_user_sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $check_user_result = $stmt->get_result();
 
     if ($check_user_result === false) {
         // Błąd zapytania SQL
@@ -18,10 +21,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Użytkownik o tej nazwie już istnieje
         echo "Użytkownik o podanej nazwie już istnieje.";
     } else {
-        // Dodanie nowego użytkownika do bazy danych
-        $insert_user_sql = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
+        // Prosta walidacja hasła (przynajmniej 8 znaków)
+        if (strlen($password) < 8) {
+            echo "Hasło musi mieć co najmniej 8 znaków.";
+            exit;
+        }
+
+        // Haszowanie hasła przed zapisaniem do bazy danych
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Dodanie nowego użytkownika do bazy danych (parametryzowane zapytanie)
+        $insert_user_sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $stmt = $conn->prepare($insert_user_sql);
+        $stmt->bind_param("ss", $username, $hashed_password);
         
-        if ($conn->query($insert_user_sql) === TRUE) {
+        if ($stmt->execute()) {
             // Pomyślna rejestracja, przekieruj na stronę logowania
             header("Location:/phpsql/pages/login.php");
         } else {
