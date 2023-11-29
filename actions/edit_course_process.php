@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST['description'];
 
     // Aktualizacja danych kursu w bazie danych przy użyciu prepared statements
-    $updateCourseSql = "UPDATE courses SET title=?, description=? WHERE id=?";
+    $updateCourseSql = "UPDATE courses SET title='$title', description='$description' WHERE id='$course_id'";
     
     $stmt = $conn->prepare($updateCourseSql);
     $stmt->bind_param("ssi", $title, $description, $course_id);
