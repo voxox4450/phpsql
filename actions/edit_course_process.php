@@ -16,28 +16,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST["title"];
     $description = $_POST["description"];
 
+    // Tutaj możesz dodać walidację danych, jeśli to konieczne
 
-include('../settings.php');
-// Obsługa edycji kursu
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $course_id = $_POST['course_id'];
-    $title = $_POST['title'];
-    $description = $_POST['description'];
+    include('../settings.php');
 
-    // Aktualizacja danych kursu w bazie danych przy użyciu prepared statements
-    $updateCourseSql = "UPDATE courses SET title=?, description=? WHERE id=?";
-    
-    $stmt = $conn->prepare($updateCourseSql);
-    $stmt->bind_param("ssi", $title, $description, $course_id);
+    // Zaktualizuj dane kursu w bazie danych
+    $sql = "UPDATE courses SET title='$title', description='$description' WHERE id=$course_id";
 
-    if ($stmt->execute()) {
-        // Pomyślna edycja kursu, przekieruj na stronę z zarządzaniem kursami
-        header("Location: /phpsql/pages/manage_courses.php");
+    if ($conn->query($sql) === TRUE) {
+        echo "Zmiany zostały zapisane pomyślnie";
     } else {
-        // Błąd edycji kursu, przekieruj na stronę z zarządzaniem kursami z komunikatem błędu
-        header("Location: /phpsql/pages/manage_courses.php?error=" . urlencode("Błąd edycji kursu: " . $stmt->error));
+        echo "Błąd podczas zapisywania zmian: " . $conn->error;
     }
 
-    $stmt->close();
+    // Zamknij połączenie z bazą danych
+    $conn->close();
+} else {
+    // Przekieruj użytkownika w przypadku próby dostępu bez przesłania formularza
+    header("Location: /phpsql/pages/user_panel.php");
+    exit;
 }
 ?>
