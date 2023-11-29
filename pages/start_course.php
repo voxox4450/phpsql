@@ -9,39 +9,36 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Sprawdź, czy przesłano poprawne dane POST
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id']) && isset($_POST['complete_course'])) {
-    $user_id = $_SESSION['user_id'];
-    $course_id = $_POST['course_id'];
+// Pobierz ID kursu z parametru w URL
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
+    $course_id = $_GET['id'];
 
-    // Sprawdź, czy użytkownik już ukończył ten kurs
-    $checkCompletionSql = "SELECT * FROM completed_courses WHERE user_id=$user_id AND course_id=$course_id";
-    $result = $conn->query($checkCompletionSql);
+    // Pobierz dane kursu na podstawie ID
+    $selectCourseSql = "SELECT * FROM courses WHERE id=$course_id";
+    $courseResult = $conn->query($selectCourseSql);
 
-    if ($result->num_rows == 0) {
-        // Użytkownik jeszcze nie ukończył kursu, dodaj do tabeli completed_courses
-        $insertCompletionSql = "INSERT INTO completed_courses (user_id, course_id, completion_date) VALUES ($user_id, $course_id, CURDATE())";
-        if ($conn->query($insertCompletionSql)) {
-            // Przekieruj na stronę przeglądania kursu po ukończeniu
-            header("Location: /phpsql/pages/view_course.php?id=$course_id");
-            exit;
-        } else {
-            echo "Błąd podczas rozpoczynania kursu: " . $conn->error;
-        }
-    } else {
-        // Użytkownik już ukończył kurs, zaktualizuj datę ukończenia
-        $updateCompletionSql = "UPDATE completed_courses SET completion_date = CURDATE() WHERE user_id=$user_id AND course_id=$course_id";
-        if ($conn->query($updateCompletionSql)) {
-            // Przekieruj na stronę przeglądania kursu po ponownym ukończeniu
-            header("Location: /phpsql/pages/view_course.php?id=$course_id");
-            exit;
-        } else {
-            echo "Błąd podczas ponownego ukończania kursu: " . $conn->error;
-        }
+    if ($courseResult->num_rows > 0) {
+        $courseData = $courseResult->fetch_assoc();
+        $title = $courseData['title'];
     }
-} else {
-    echo "Błędne dane przesłane do formularza.";
-}
 
-$conn->close();
+    include '../includes/header.php';
+
+    echo '<div class="container">';
+    echo '<h2>Przeglądaj Kurs</h2>';
+    echo '<p>Tytuł: ' . $title . '</p>';
+ 
+
+    // Dodaj przycisk "Rozpocznij Kurs"
+    echo '<form method="post" action="/phpsql/pages/start_course_process.php">';
+    echo '<input type="hidden" name="course_id" value="' . $course_id . '">';
+    echo '<button type="submit">Ukończ kurs</button>';
+    echo '</form>';
+    
+
+    echo '</div>'; // Zamknij kontener
+    include '../includes/footer.php';
+} else {
+    echo "Błędne dane przesłane do formularza.";s
+}
 ?>
