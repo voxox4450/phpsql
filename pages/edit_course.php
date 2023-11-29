@@ -16,7 +16,7 @@ $username = $_SESSION['username'];
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,14 +36,11 @@ $username = $_SESSION['username'];
             <input type="hidden" name="course_id" value="ID_KURSU">
             
             <label for="title">Tytuł kursu:</label>
-            <input type="text" name="title" value="WARTOŚĆ_TYTULU" required>
+            <input type="text" name="title" value="" required>
 
             <label for="description">Opis kursu:</label>
-            <textarea name="description" rows="4" required>WARTOŚĆ_OPISU</textarea>
-
-            <label for="instructor">Instruktor:</label>
-            <input type="text" name="instructor" value="WARTOŚĆ_INSTRUKTORA" required>
-
+            <textarea name="description" rows="4" required></textarea>
+>
             <button type="submit">Zapisz zmiany</button>
         </form>
     </div>
