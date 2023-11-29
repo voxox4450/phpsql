@@ -1,11 +1,5 @@
 <?php
-session_start(); // Rozpoczęcie sesji
-
-// Sprawdzenie, czy istnieje komunikat w sesji
-$registration_message = isset($_SESSION['registration_message']) ? $_SESSION['registration_message'] : '';
-
-// Usunięcie komunikatu z sesji, aby znikł po odświeżeniu strony
-unset($_SESSION['registration_message']);
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -15,28 +9,18 @@ unset($_SESSION['registration_message']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <title>Rejestracja</title>
-    <style>
-        /* Dodaj odpowiednie style dla komunikatu */
-        .registration-message {
-            color: red; /* Kolor komunikatu o błędzie */
-            font-weight: bold;
-            /* Dodaj inne stylizacje według potrzeb */
-        }
-    </style>
 </head>
 <body>
     <?php include '../includes/header.php'; ?>
 
     <div class="container">
         <h2>Zarejestruj się</h2>
-
         <?php
-        // Wyświetlenie komunikatu
-        if (!empty($registration_message)) {
-            echo '<p class="registration-message">' . $registration_message . '</p>';
+        if (isset($_SESSION['registration_message'])) {
+            echo '<p class="error">' . $_SESSION['registration_message'] . '</p>';
+            unset($_SESSION['registration_message']); // Usunięcie komunikatu po wyświetleniu
         }
         ?>
-
         <form action="/phpsql/actions/register_process.php" method="post">
             <label for="username">Nazwa użytkownika:</label>
             <input type="text" name="username" required>
