@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // np. UPDATE courses SET title='$title', description='$description', instructor='$instructor' WHERE id=$course_id;
 
     // Pomyślna edycja kursu, przekieruj na stronę z zarządzaniem kursami
-    header("Location: manage_courses.php");
+    header("Location: /phpsql/pages/manage_courses.php");
 }
 
 $conn->close();
