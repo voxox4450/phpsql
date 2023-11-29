@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Użytkownik zalogowany, przekieruj na stronę główną
             $_SESSION['user_id'] = $userData['id'];  // Przechowaj ID użytkownika w sesji
             $_SESSION['username'] = $userData['username'];  // Ustawienie danych sesji
+            $_SESSION['success_message'] = "Zalogowano pomyślnie!";
             header("Location: /phpsql/pages/profile.php");
             exit; // Zakończ po przekierowaniu
         } else {

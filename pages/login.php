@@ -19,6 +19,13 @@
             // Usuń komunikat o błędzie z sesji, aby nie był wyświetlany ponownie po odświeżeniu strony
             unset($_SESSION['error_message']);
         }
+
+        // Sprawdź, czy sesja zawiera komunikat o sukcesie
+        if (isset($_SESSION['success_message'])) {
+            echo '<p class="success">' . $_SESSION['success_message'] . '</p>';
+            // Usuń komunikat o sukcesie z sesji, aby nie był wyświetlany ponownie po odświeżeniu strony
+            unset($_SESSION['success_message']);
+        }
         ?>
 
         <form action="/phpsql/actions/login_process.php" method="post">
