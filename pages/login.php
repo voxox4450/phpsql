@@ -11,6 +11,16 @@
 
     <div class="container">
         <h2>Zaloguj się</h2>
+
+        <?php
+        // Sprawdź, czy sesja zawiera komunikat o błędzie
+        if (isset($_SESSION['error_message'])) {
+            echo '<p class="error">' . $_SESSION['error_message'] . '</p>';
+            // Usuń komunikat o błędzie z sesji, aby nie był wyświetlany ponownie po odświeżeniu strony
+            unset($_SESSION['error_message']);
+        }
+        ?>
+
         <form action="/phpsql/actions/login_process.php" method="post">
             <label for="username">Nazwa użytkownika:</label>
             <input type="text" name="username" required>

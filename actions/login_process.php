@@ -6,6 +6,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Inicjalizacja sesji
+session_start();
+
 // Obsługa logowania
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
@@ -25,18 +28,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Porównanie hasła za pomocą password_verify
         if (password_verify($password, $hashed_password)) {
             // Użytkownik zalogowany, przekieruj na stronę główną
-            session_start();
             $_SESSION['user_id'] = $userData['id'];  // Przechowaj ID użytkownika w sesji
             $_SESSION['username'] = $userData['username'];  // Ustawienie danych sesji
             header("Location: /phpsql/pages/profile.php");
             exit; // Zakończ po przekierowaniu
         } else {
-            // Błąd logowania
-            echo "Błędna nazwa użytkownika lub hasło.";
+            // Błąd logowania - ustaw komunikat o błędzie w sesji
+            $_SESSION['error_message'] = "Błędna nazwa użytkownika lub hasło.";
+            header("Location: /phpsql/pages/login.php");
+            exit;
         }
     } else {
-        // Błąd logowania
-        echo "Błędna nazwa użytkownika lub hasło.";
+        // Błąd logowania - ustaw komunikat o błędzie w sesji
+        $_SESSION['error_message'] = "Błędna nazwa użytkownika lub hasło.";
+        header("Location: /phpsql/pages/login.php");
+        exit;
     }
 
     $stmt->close(); // Zamknięcie prepared statement
