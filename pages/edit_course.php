@@ -33,7 +33,7 @@ $username = $_SESSION['username'];
             // i wypełnij nimi formularz edycji
         ?>
         <form action="/phpsql/actions/edit_course_process.php" method="post">
-            <input type="hidden" name="course_id" value="ID_KURSU">
+            <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
             
             <label for="title">Tytuł kursu:</label>
             <input type="text" name="title" value="" required>
