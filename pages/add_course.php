@@ -1,44 +1,43 @@
 <?php
-// user_panel.php
-
 session_start();
 
-// Sprawdzenie, czy użytkownik jest zalogowany
-if (!isset($_SESSION['username'])) {
+include('../settings.php');
+
+// Sprawdź, czy użytkownik jest zalogowany
+if (!isset($_SESSION['user_id'])) {
     header("Location: /phpsql/pages/login.php");
     exit;
 }
 
-// Pobierz informacje o zalogowanym użytkowniku (możesz pobierać więcej informacji z bazy danych, jeśli potrzebujesz)
-$username = $_SESSION['username'];
+// Sprawdź, czy przesłano poprawne dane POST
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $course_id = $_POST['course_id'];
 
-// Poniżej możesz umieścić kod HTML/CSS, który wyświetli panel użytkownika
+    // Sprawdź, czy użytkownik już ukończył ten kurs
+    $checkCompletionSql = "SELECT * FROM completed_courses WHERE user_id=$user_id AND course_id=$course_id";
+    $result = $conn->query($checkCompletionSql);
+
+    if ($result->num_rows == 0) {
+        // Użytkownik jeszcze nie ukończył kursu, dodaj do tabeli completed_courses
+        $insertCompletionSql = "INSERT INTO completed_courses (user_id, course_id, completion_date) VALUES ($user_id, $course_id, CURDATE())";
+        if ($conn->query($insertCompletionSql)) {
+            echo "Kurs został rozpoczęty.";
+        } else {
+            echo "Błąd podczas rozpoczynania kursu: " . $conn->error;
+        }
+    } else {
+        // Użytkownik już ukończył kurs, zaktualizuj datę ukończenia
+        $updateCompletionSql = "UPDATE completed_courses SET completion_date = CURDATE() WHERE user_id=$user_id AND course_id=$course_id";
+        if ($conn->query($updateCompletionSql)) {
+            echo "Kurs został ponownie ukończony.";
+        } else {
+            echo "Błąd podczas ponownego ukończania kursu: " . $conn->error;
+        }
+    }
+} else {
+    echo "Błędne dane przesłane do formularza.";
+}
+
+$conn->close();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Dodaj Kurs</title>
-</head>
-<body>
-    <?php include '../includes/header.php'; ?>
-
-    <div class="container">
-        <h2>Dodaj nowy kurs</h2>
-        <form action="/phpsql/actions/add_course_process.php" method="post">
-            <label for="title">Tytuł kursu:</label>
-            <input type="text" name="title" required>
-
-            <label for="description">Opis kursu:</label>
-            <textarea name="description" rows="4" required></textarea>
-            
-            <button type="submit">Dodaj kurs</button>
-        </form>
-    </div>
-
-    <?php include '../includes/footer.php'; ?>
-</body>
-</html>
