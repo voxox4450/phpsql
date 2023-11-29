@@ -53,7 +53,7 @@ include '../includes/header.php';
         }
         ?>
 
-        <form action="change_password_process.php" method="post">
+        <form action="/phpsql/actions/change_password_process.php" method="post">
             <label for="current_password">Aktualne Hasło:</label>
             <input type="password" name="current_password" required>
 
