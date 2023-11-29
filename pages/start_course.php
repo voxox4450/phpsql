@@ -8,15 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: /phpsql/pages/login.php");
     exit;
 }
-
-// Sprawdź, czy istnieje parametr 'id' w tablicy $_GET
-if (!isset($_GET['id'])) {
-    echo "Błędne dane przesłane do formularza.";
-    exit;
-}
-
-// Pobierz ID kursu z parametru w URL
-$course_id = $_GET['id'];
+$course_id = 'course_id';
 
 // Pobierz dane kursu na podstawie ID
 $selectCourseSql = "SELECT * FROM courses WHERE id=?";
