@@ -11,8 +11,9 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = "SELECT id, username FROM users WHERE username='$username' AND password='$password'";
+    $sql = "SELECT id, username FROM users WHERE username='$username' AND password='$hashed_password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
