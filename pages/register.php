@@ -12,12 +12,6 @@
     <div class="container">
         <h2>Zarejestruj się</h2>
 
-        <?php
-        // Wyświetlanie komunikatu o błędzie, jeśli istnieje
-        if (isset($error_message)) {
-            echo '<p class="error">' . $error_message . '</p>';
-        }
-        ?>
 
         <form action="/phpsql/actions/register_process.php" method="post">
             <label for="username">Nazwa użytkownika:</label>
@@ -29,6 +23,13 @@
             <button type="submit">Zarejestruj się</button>
         </form>
     </div>
+
+    <?php
+        // Wyświetlanie komunikatu o błędzie, jeśli istnieje
+        if (isset($error_message)) {
+            echo '<p class="error">' . $error_message . '</p>';
+        }
+        ?>
 
     <?php include '../includes/footer.php'; ?>
 </body>
