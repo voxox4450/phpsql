@@ -49,6 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $stmt->close(); // Zamknięcie prepared statement
+    // Przekieruj z powrotem na stronę logowania
+    header("Location: /phpsql/pages/login.php");
+    exit;
+    
 }
 
 $conn->close();
