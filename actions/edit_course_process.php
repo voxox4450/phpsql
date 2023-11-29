@@ -9,7 +9,6 @@ if (!isset($_SESSION['username'])) {
 }
 
 include('../settings.php');
-
 // Obsługa edycji kursu
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $course_id = $_POST['course_id'];
