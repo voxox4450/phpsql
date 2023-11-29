@@ -16,7 +16,7 @@ $username = $_SESSION['username'];
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,7 +32,7 @@ $username = $_SESSION['username'];
             // Tutaj dodaj kod do pobierania danych kursu na podstawie przekazanego ID (z $_GET['id'])
             // i wypełnij nimi formularz edycji
         ?>
-        <form action="edit_course_process.php" method="post">
+        <form action="/phpsql/actions/edit_course_process.php" method="post">
             <input type="hidden" name="course_id" value="ID_KURSU">
             
             <label for="title">Tytuł kursu:</label>
