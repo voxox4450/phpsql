@@ -11,6 +11,14 @@
 
     <div class="container">
         <h2>Zarejestruj się</h2>
+
+        <?php session_start();
+        // Wyświetlanie komunikatu o błędzie, jeśli istnieje
+        if (isset($error_message)) {
+            echo '<p class="error">' . $error_message . '</p>';
+        }
+        ?>
+
         <form action="/phpsql/actions/register_process.php" method="post">
             <label for="username">Nazwa użytkownika:</label>
             <input type="text" name="username" required>
