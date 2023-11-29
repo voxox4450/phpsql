@@ -32,7 +32,7 @@ if ($result->num_rows > 0) {
 include '../includes/header.php';
 
 echo '<div class="container">';
-echo '<h2>Przeglądaj Kurs</h2>';
+echo '<h2>Wykonaj Kurs</h2>';
 echo '<p>Tytuł: ' . $title . '</p>';
 
 // Dodaj przycisk "Ukończ kurs"
