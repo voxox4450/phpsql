@@ -9,29 +9,6 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-// Dołączenie pliku z ustawieniami bazy danych
-include '../settings.php';
-
-// Pobranie informacji o zalogowanym użytkowniku
-$username = $_SESSION['username'];
-
-// Sprawdzenie połączenia z bazą danych
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "SELECT * FROM users WHERE username = '$username'";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $userId = $row['id'];
-} else {
-    // Użytkownik nie istnieje w bazie danych (coś poszło nie tak)
-    header("Location: /phpsql/pages/login.php");
-    exit;
-}
-
 include '../includes/header.php';
 ?>
 
@@ -48,8 +25,14 @@ include '../includes/header.php';
         <h2>Zmień Hasło</h2>
 
         <?php
-        if (isset($error_message)) {
-            echo '<p class="error">' . $error_message . '</p>';
+        // Wyświetlanie komunikatów o błędach, jeśli istnieją
+        if (isset($_SESSION['error_messages']) && !empty($_SESSION['error_messages'])) {
+            echo '<div class="error">';
+            foreach ($_SESSION['error_messages'] as $error_message) {
+                echo '<p>' . $error_message . '</p>';
+            }
+            echo '</div>';
+            unset($_SESSION['error_messages']); // Usunięcie komunikatów o błędach po wyświetleniu
         }
         ?>
 
@@ -70,7 +53,3 @@ include '../includes/header.php';
     <?php include '../includes/footer.php'; ?>
 </body>
 </html>
-
-<?php
-$conn->close();
-?>

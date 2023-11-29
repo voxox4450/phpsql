@@ -44,9 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Aktualne hasło jest poprawne
         if ($newPassword === $confirmNewPassword) {
             // Walidacja nowego hasła (możesz dostosować zasady walidacji)
+            $error_messages = array();
             if (strlen($newPassword) < 8) {
-                $error_message = "Nowe hasło musi mieć co najmniej 8 znaków.";
-            } else {
+                $error_messages[] = "Nowe hasło musi mieć co najmniej 8 znaków.";
+            }
+
+            if (empty($error_messages)) {
                 // Nowe hasło zostało potwierdzone
                 $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
@@ -61,18 +64,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit;
                 } else {
                     // Błąd podczas aktualizacji hasła
-                    $error_message = "Błąd podczas aktualizacji hasła. Spróbuj ponownie.";
+                    $_SESSION['error_messages'] = array("Błąd podczas aktualizacji hasła. Spróbuj ponownie.");
                 }
+            } else {
+                // Zapisz komunikaty o błędach
+                $_SESSION['error_messages'] = $error_messages;
             }
         } else {
             // Nowe hasła nie pasują do siebie
-            $error_message = "Nowe hasło i jego potwierdzenie muszą być identyczne.";
+            $_SESSION['error_messages'] = array("Nowe hasło i jego potwierdzenie muszą być identyczne.");
         }
     } else {
         // Aktualne hasło jest niepoprawne
-        $error_message = "Aktualne hasło jest niepoprawne.";
+        $_SESSION['error_messages'] = array("Aktualne hasło jest niepoprawne.");
     }
 }
 
 $conn->close();
+header("Location: /phpsql/pages/change_password.php"); // Przekieruj z powrotem do formularza z hasłem
+exit;
 ?>
