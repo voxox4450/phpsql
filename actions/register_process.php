@@ -2,6 +2,9 @@
 // Połączenie z bazą danych
 include('../settings.php');
 
+// Inicjalizacja sesji
+session_start();
+
 // Obsługa rejestracji
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
