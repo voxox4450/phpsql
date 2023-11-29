@@ -7,7 +7,7 @@
     <title>Rejestracja</title>
 </head>
 <body>
-    <?php include '../includes/header.php';session_start(); ?>
+    <?php include '../includes/header.php'; ?>
 
     <div class="container">
         <h2>Zarejestruj się</h2>

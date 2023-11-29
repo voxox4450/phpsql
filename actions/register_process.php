@@ -1,7 +1,7 @@
 <?php
 // Połączenie z bazą danych
 include('../settings.php');
-session_start();
+
 // Obsługa rejestracji
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
@@ -25,10 +25,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($check_user_result->num_rows > 0) {
         // Użytkownik o tej nazwie już istnieje
         $error_message = "Użytkownik o podanej nazwie już istnieje.";
+        include '../pages/register.php';  // Dodaj tę linię
+        exit;  // Dodaj tę linię
     } else {
         // Prosta walidacja hasła (przynajmniej 8 znaków)
         if (strlen($password) < 8) {
             $error_message = "Hasło musi mieć co najmniej 8 znaków.";
+            include '../pages/register.php';  // Dodaj tę linię
+            exit;  // Dodaj tę linię
         } else {
             // Haszowanie hasła przed zapisaniem do bazy danych
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -50,6 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 // Błąd rejestracji
                 $error_message = "Błąd rejestracji: " . $stmt->error;
+                include '../pages/register.php';  // Dodaj tę linię
+                exit;  // Dodaj tę linię
             }
         }
     }
