@@ -39,6 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
     echo '</div>'; // Zamknij kontener
     include '../includes/footer.php';
 } else {
-    echo "Błędne dane przesłane do formularza.";s
+    echo "Błędne dane przesłane do formularza.";
 }
 ?>
