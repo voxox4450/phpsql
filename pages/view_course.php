@@ -8,10 +8,46 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
     $course_id = $_GET['id'];
 
     // Pobierz dane kursu na podstawie ID
-    $selectCourseSql = "SELECT * FROM courses WHERE id={$course_id}";
+    $selectCourseSql = "SELECT * FROM courses WHERE id=$course_id";
     $courseResult = $conn->query($selectCourseSql);
 
-    // ... (reszta kodu bez zmian)
+    if ($courseResult->num_rows > 0) {
+        $courseData = $courseResult->fetch_assoc();
+        $title = $courseData['title'];
+        $description = $courseData['description'];
+        $creator_id = $courseData['creator_id'];
+
+        // Pobierz imię twórcy na podstawie ID
+        $selectCreatorSql = "SELECT username FROM users WHERE id=$creator_id";
+        $creatorResult = $conn->query($selectCreatorSql);
+
+        if ($creatorResult->num_rows > 0) {
+            $creatorData = $creatorResult->fetch_assoc();
+            $creator_name = $creatorData['username'];
+        }
+    }
+
+    // Pobierz średnią ocenę kursu na podstawie ID kursu
+    $selectAvgRatingSql = "SELECT AVG(rating) as avg_rating FROM course_ratings WHERE course_id=$course_id";
+    $avgRatingResult = $conn->query($selectAvgRatingSql);
+
+    if ($avgRatingResult->num_rows > 0) {
+        $avgRatingData = $avgRatingResult->fetch_assoc();
+        $average_rating = $avgRatingData['avg_rating'];
+    }
+
+    // Pobierz oceny kursu na podstawie ID kursu
+    $selectRatingsSql = "SELECT * FROM course_ratings WHERE course_id=$course_id";
+    $ratingsResult = $conn->query($selectRatingsSql);
+
+    $ratings = array(); // Inicjalizacja tablicy do przechowywania ocen
+
+    if ($ratingsResult->num_rows > 0) {
+        while ($ratingData = $ratingsResult->fetch_assoc()) {
+            $ratings[] = $ratingData['rating'];
+        }
+    }
+}
 
     // Sprawdź, czy użytkownik jest zalogowany
     if (isset($_SESSION['user_id'])) {
@@ -93,5 +129,5 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
         header("Location: /phpsql/pages/login.php");
         exit;
     }
-}
+
 ?>
