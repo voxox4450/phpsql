@@ -31,3 +31,29 @@ CREATE TABLE IF NOT EXISTS course_ratings (
     FOREIGN KEY (user_id) REFERENCES users(id),
     UNIQUE(course_id, user_id) -- Zapewnia, że jeden użytkownik może ocenić dany kurs tylko raz
 );
+
+
+-- Tabela ukończonych kursów przez użytkowników
+CREATE TABLE IF NOT EXISTS completed_courses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    course_id INT NOT NULL,
+    completion_date DATE NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (course_id) REFERENCES courses(id),
+    UNIQUE(user_id, course_id) -- Zapewnia, że jeden użytkownik może ukończyć dany kurs tylko raz
+);
+
+
+-- Trigger do automatycznego wpisywania completion date po ukończeniu kursu
+DELIMITER //
+CREATE TRIGGER after_completed_courses_insert
+AFTER INSERT ON completed_courses
+FOR EACH ROW
+BEGIN
+    UPDATE completed_courses
+    SET completion_date = CURDATE()
+    WHERE id = NEW.id;
+END;
+//
+DELIMITER ;
