@@ -8,9 +8,11 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: /phpsql/pages/login.php");
     exit;
 }
-$course_id = 'course_id';
 
-// Pobierz dane kursu na podstawie ID
+// Pobierz ID kursu z parametrów (może być $_GET lub $_POST, w zależności od implementacji)
+$course_id = isset($_GET['course_id']) ? intval($_GET['course_id']) : 0;
+
+// Zabezpieczenie przed atakami SQL Injection
 $selectCourseSql = "SELECT * FROM courses WHERE id=?";
 $stmt = $conn->prepare($selectCourseSql);
 $stmt->bind_param("i", $course_id);
@@ -38,5 +40,8 @@ echo '<button type="submit">Ukończ kurs</button>';
 echo '</form>';
 
 echo '</div>'; // Zamknij kontener
+
+// Zamykanie połączenia z bazą danych
+$stmt->close();
 include '../includes/footer.php';
 ?>
