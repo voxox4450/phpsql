@@ -15,12 +15,7 @@ session_start();
 
     <div class="container">
         <h2>Zarejestruj się</h2>
-        <?php
-        if (isset($_SESSION['registration_message'])) {
-            echo '<p class="error">' . $_SESSION['registration_message'] . '</p>';
-            unset($_SESSION['registration_message']); // Usunięcie komunikatu po wyświetleniu
-        }
-        ?>
+
         <form action="/phpsql/actions/register_process.php" method="post">
             <label for="username">Nazwa użytkownika:</label>
             <input type="text" name="username" required>
@@ -30,6 +25,12 @@ session_start();
 
             <button type="submit">Zarejestruj się</button>
         </form>
+        <?php
+        if (isset($_SESSION['registration_message'])) {
+            echo '<p class="error">' . $_SESSION['registration_message'] . '</p>';
+            unset($_SESSION['registration_message']); // Usunięcie komunikatu po wyświetleniu
+        }
+        ?>
     </div>
 
     <?php include '../includes/footer.php'; ?>
