@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Sprawdź, czy przesłano poprawne dane POST
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id']) && isset($_POST['complete_course'])) {
     $user_id = $_SESSION['user_id'];
     $course_id = $_POST['course_id'];
 
@@ -22,7 +22,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
         // Użytkownik jeszcze nie ukończył kursu, dodaj do tabeli completed_courses
         $insertCompletionSql = "INSERT INTO completed_courses (user_id, course_id, completion_date) VALUES ($user_id, $course_id, CURDATE())";
         if ($conn->query($insertCompletionSql)) {
-            echo "Kurs został rozpoczęty.";
+            // Przekieruj na stronę przeglądania kursu po ukończeniu
+            header("Location: /phpsql/pages/view_course.php?id=$course_id");
+            exit;
         } else {
             echo "Błąd podczas rozpoczynania kursu: " . $conn->error;
         }
@@ -30,7 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
         // Użytkownik już ukończył kurs, zaktualizuj datę ukończenia
         $updateCompletionSql = "UPDATE completed_courses SET completion_date = CURDATE() WHERE user_id=$user_id AND course_id=$course_id";
         if ($conn->query($updateCompletionSql)) {
-            echo "Kurs został ponownie ukończony.";
+            // Przekieruj na stronę przeglądania kursu po ponownym ukończeniu
+            header("Location: /phpsql/pages/view_course.php?id=$course_id");
+            exit;
         } else {
             echo "Błąd podczas ponownego ukończania kursu: " . $conn->error;
         }
