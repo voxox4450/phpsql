@@ -31,9 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Zamknij połączenie z bazą danych
     $conn->close();
-} else {
-    // Przekieruj użytkownika w przypadku próby dostępu bez przesłania formularza
-    header("Location: /phpsql/pages/user_panel.php");
-    exit;
 }
+    header("Location: /phpsql/pages/manage_courses.php");
+    exit;
 ?>

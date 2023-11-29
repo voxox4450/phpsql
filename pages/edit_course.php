@@ -11,9 +11,10 @@ if (!isset($_SESSION['username'])) {
 
 // Pobierz informacje o zalogowanym użytkowniku (możesz pobierać więcej informacji z bazy danych, jeśli potrzebujesz)
 $username = $_SESSION['username'];
-
+$course_id = $_GET['id'];
 // Poniżej możesz umieścić kod HTML/CSS, który wyświetli panel użytkownika
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pl">
