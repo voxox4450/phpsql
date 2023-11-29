@@ -32,11 +32,11 @@ if ($result->num_rows > 0) {
 include '../includes/header.php';
 
 echo '<div class="container">';
-echo '<h2>Przeglądaj Kurs</h2>';
+echo '<h2>Wykonaj Kurs</h2>';
 echo '<p>Tytuł: ' . $title . '</p>';
 
 // Dodaj przycisk "Ukończ kurs"
-echo '<form method="post" action="/phpsql/pages/start_course_process.php">';
+echo '<form method="post" action="/phpsql/actions/start_course_process.php">';
 echo '<input type="hidden" name="course_id" value="' . $course_id . '">';
 echo '<button type="submit">Ukończ kurs</button>';
 echo '</form>';
