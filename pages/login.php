@@ -7,12 +7,24 @@
     <title>Logowanie</title>
 </head>
 <body>
-    <?php include '../includes/header.php'; ?>
+    <?php include '../includes/header.php';
+    session_start(); ?>
 
     <div class="container">
         <h2>Zaloguj się</h2>
 
-        <?php
+        <form action="/phpsql/actions/login_process.php" method="post">
+            <label for="username">Nazwa użytkownika:</label>
+            <input type="text" name="username" required>
+
+            <label for="password">Hasło:</label>
+            <input type="password" name="password" required>
+
+            <button type="submit">Zaloguj się</button>
+        </form>
+    </div>
+
+    <?php
         // Sprawdź, czy sesja zawiera komunikat o błędzie
         if (isset($_SESSION['error_message'])) {
             echo '<p class="error">' . $_SESSION['error_message'] . '</p>';
@@ -27,17 +39,6 @@
             unset($_SESSION['success_message']);
         }
         ?>
-
-        <form action="/phpsql/actions/login_process.php" method="post">
-            <label for="username">Nazwa użytkownika:</label>
-            <input type="text" name="username" required>
-
-            <label for="password">Hasło:</label>
-            <input type="password" name="password" required>
-
-            <button type="submit">Zaloguj się</button>
-        </form>
-    </div>
 
     <?php include '../includes/footer.php'; ?>
 </body>
