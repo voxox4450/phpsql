@@ -10,12 +10,6 @@ if (!isset($_SESSION['username'])) {
 
 include('../settings.php');
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
 // Obsługa dodawania nowego kursu
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST['title'];

@@ -35,8 +35,8 @@ $username = $_SESSION['username'];
             <label for="description">Opis kursu:</label>
             <textarea name="description" rows="4" required></textarea>
 
-            <label for="instructor">Instruktor:</label>
-            <input type="text" name="instructor" required>
+            <label for="instructor">Twórca:</label>
+            <input type="text" name="twórca" required>
 
             <button type="submit">Dodaj kurs</button>
         </form>
