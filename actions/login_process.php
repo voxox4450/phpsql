@@ -36,17 +36,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             // Błąd logowania - ustaw komunikat o błędzie w sesji
             $_SESSION['error_message'] = "Błędna nazwa użytkownika lub hasło.";
-            header("Location: /phpsql/pages/login.php");
-            exit;
         }
     } else {
         // Błąd logowania - ustaw komunikat o błędzie w sesji
         $_SESSION['error_message'] = "Błędna nazwa użytkownika lub hasło.";
-        header("Location: /phpsql/pages/login.php");
-        exit;
     }
 
     $stmt->close(); // Zamknięcie prepared statement
+
+    // Przekieruj z powrotem na stronę logowania
+    header("Location: /phpsql/pages/login.php");
+    exit;
 }
 
 $conn->close();
