@@ -4,34 +4,27 @@ session_start();
 
 // Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+    header("Location: /phpsql/pages/login.php");
     exit;
 }
 
-// Połączenie z bazą danych
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "online_courses";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('../settings.php');
 
 // Obsługa edycji kursu
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $course_id = $_POST['course_id'];
     $title = $_POST['title'];
     $description = $_POST['description'];
-    $instructor = $_POST['instructor'];
 
-    // Tutaj dodaj kod do aktualizacji danych kursu w bazie danych
-    // np. UPDATE courses SET title='$title', description='$description', instructor='$instructor' WHERE id=$course_id;
+    // Aktualizacja danych kursu w bazie danych
+    $updateCourseSql = "UPDATE courses SET title='$title', description='$description' WHERE id=$course_id";
 
-    // Pomyślna edycja kursu, przekieruj na stronę z zarządzaniem kursami
-    header("Location: manage_courses.php");
+    if ($conn->query($updateCourseSql) === TRUE) {
+        // Pomyślna edycja kursu, przekieruj na stronę z zarządzaniem kursami
+        header("Location: /phpsql/pages/manage_courses.php");
+    } else {
+        // Błąd edycji kursu, przekieruj na stronę z zarządzaniem kursami z komunikatem błędu
+        header("Location: /phpsql/pages/manage_courses.php?error=" . urlencode("Błąd edycji kursu: " . $conn->error));
+    }
 }
 
 $conn->close();
