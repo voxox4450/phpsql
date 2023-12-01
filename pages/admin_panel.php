@@ -32,7 +32,7 @@ $coursesResult = $conn->query($getCoursesSql);
     <div class="container">
         <h2>Panel Administratora</h2>
 
-        <!-- Wyświetlanie użytkowników -->
+         <!-- Wyświetlanie użytkowników -->
         <h3>Użytkownicy</h3>
         <table>
             <tr>
@@ -48,11 +48,17 @@ $coursesResult = $conn->query($getCoursesSql);
                     <td><?php echo $user['role']; ?></td>
                     <td>
                         <a href="edit_user.php?id=<?php echo $user['id']; ?>">Edytuj</a>
-                        <!-- Dodaj link do usuwania użytkownika, jeśli chcesz -->
+                        <?php
+                        // Dodaj link do usuwania użytkownika, jeśli to nie jest aktualnie zalogowany użytkownik
+                        if ($_SESSION['user_id'] != $user['id']) {
+                            echo '<a href="delete_user.php?id=' . $user['id'] . '">Usuń</a>';
+                        }
+                        ?>
                     </td>
                 </tr>
             <?php endwhile; ?>
         </table>
+
 
         <!-- Wyświetlanie kursów -->
         <h3>Kursy</h3>
