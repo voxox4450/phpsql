@@ -3,13 +3,11 @@
 
 session_start();
 include('../settings.php');
-var_dump($_SESSION);
 // Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['username'])) {
     header("Location: /phpsql/pages/login.php");
     exit;
 }
-echo "Rola użytkownika: " . $_SESSION['role'];
 
 ?>
 
