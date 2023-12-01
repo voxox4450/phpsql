@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Zabezpieczenie przed SQL Injection
-    $sql = "SELECT id, username, password FROM users WHERE username=?";
+    $sql = "SELECT id, username, password, role FROM users WHERE username=?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
