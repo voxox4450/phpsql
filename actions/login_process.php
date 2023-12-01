@@ -30,8 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Użytkownik zalogowany, przekieruj na stronę główną
             $_SESSION['user_id'] = $userData['id'];  // Przechowaj ID użytkownika w sesji
             $_SESSION['username'] = $userData['username'];  // Ustawienie danych sesji
+            $_SESSION['role'] = $userData['role']; // Dodanie informacji o roli
             $_SESSION['success_message'] = "Zalogowano pomyślnie!";
-            header("Location: /phpsql/pages/profile.php");
+             // Przekierowanie w zależności od roli
+             if ($_SESSION['role'] == 'admin') {
+                header("Location: /phpsql/pages/admin_panel.php");
+            } else {
+                header("Location: /phpsql/pages/user_panel.php");
+            }
             exit; // Zakończ po przekierowaniu
         } else {
             // Błąd logowania - ustaw komunikat o błędzie w sesji
