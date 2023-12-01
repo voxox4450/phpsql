@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Prosta walidacja długości tytułu i opisu
     if (strlen($title) < 6 || strlen($description) < 25) {
         $error_message = "Tytuł musi mieć co najmniej 6 znaków, a opis co najmniej 25 znaków.";
-        header("Location: /phpsql/pages/browse_courses.php?error=" . urlencode($error_message));
+        header("Location: /phpsql/pages/add_course.php?error=" . urlencode($error_message));
         exit;
     }
 
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Kurs o podanym tytule i opisie już istnieje
         $stmtCheckDuplicate->close();
         $error_message = "Kurs o podanym tytule i opisie już istnieje.";
-        header("Location: /phpsql/pages/browse_courses.php?error=" . urlencode($error_message));
+        header("Location: /phpsql/pages/add_course.php?error=" . urlencode($error_message));
         exit;
     }
 
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Błąd podczas dodawania kursu
         $stmtInsert->close();
         $error_message = "Błąd podczas dodawania kursu. Spróbuj ponownie.";
-        header("Location: /phpsql/pages/browse_courses.php?error=" . urlencode($error_message));
+        header("Location: /phpsql/pages/add_course.php?error=" . urlencode($error_message));
         exit;
     }
 }
