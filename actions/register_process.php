@@ -5,10 +5,19 @@ include('../settings.php');
 // Inicjalizacja sesji
 session_start();
 
+// Funkcja do walidacji danych
+function validate($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
 // Obsługa rejestracji
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = validate($_POST['username']);
+    $password = validate($_POST['password']);
 
     // Sprawdzenie, czy użytkownik o podanej nazwie już istnieje
     $check_user_sql = "SELECT * FROM users WHERE username=?";
