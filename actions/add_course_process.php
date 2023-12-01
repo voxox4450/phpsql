@@ -37,10 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmtCheckDuplicate->num_rows > 0) {
         // Kurs o podanym tytule i opisie już istnieje
+        $stmtCheckDuplicate->close();
         $error_message = "Kurs o podanym tytule i opisie już istnieje.";
         header("Location: /phpsql/pages/browse_courses.php?error=" . urlencode($error_message));
         exit;
     }
+
+    // Zamykamy prepared statement
+    $stmtCheckDuplicate->close();
 
     // Wstawianie nowego kursu do bazy danych
     $insertSql = "INSERT INTO courses (title, description, creator_id) VALUES (?, ?, ?)";
@@ -54,18 +58,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmtInsert->execute()) {
         // Pomyślne dodanie kursu, przekieruj na stronę z kursami
+        $stmtInsert->close();
         header("Location: /phpsql/pages/browse_courses.php");
         exit;
     } else {
         // Błąd podczas dodawania kursu
+        $stmtInsert->close();
         $error_message = "Błąd podczas dodawania kursu. Spróbuj ponownie.";
         header("Location: /phpsql/pages/browse_courses.php?error=" . urlencode($error_message));
         exit;
     }
-
-    // Zamykamy prepared statement
-    $stmtCheckDuplicate->close();
-    $stmtInsert->close();
 }
 
 // Zamykamy połączenie
