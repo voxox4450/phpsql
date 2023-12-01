@@ -33,15 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['role'] = $userData['role']; // Dodanie informacji o roli
             $_SESSION['success_message'] = "Zalogowano pomyślnie!";
              // Przekierowanie w zależności od roli
-             // Sprawdzenie, czy użytkownik jest zalogowany
-            if (!isset($_SESSION['username'])) {
-                header("Location: login.php");
-                exit;
-            }
-
-            // Dodaj poniższe linie i sprawdź, czy poprawnie odczytujesz rolę
-            echo "Rola użytkownika: " . $_SESSION['role'];
-
              if ($_SESSION['role'] == 'admin') {
                 header("Location: /phpsql/pages/admin_panel.php");
             } else {
