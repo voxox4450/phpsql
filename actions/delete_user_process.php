@@ -21,6 +21,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
         exit;
     }
 
+    // Usuń oceny kursów utworzonych przez użytkownika
+    $deleteUserCourseRatingsSql = "DELETE cr FROM course_ratings cr 
+                                    JOIN courses c ON cr.course_id = c.id
+                                    WHERE c.creator_id = ?";
+    $stmtUserCourseRatings = $conn->prepare($deleteUserCourseRatingsSql);
+    $stmtUserCourseRatings->bind_param("i", $user_id);
+    $stmtUserCourseRatings->execute();
+    $stmtUserCourseRatings->close();
+
+    // Usuń oceny kursów wystawione przez użytkownika
+    $deleteUserRatingsSql = "DELETE FROM course_ratings WHERE user_id = ?";
+    $stmtUserRatings = $conn->prepare($deleteUserRatingsSql);
+    $stmtUserRatings->bind_param("i", $user_id);
+    $stmtUserRatings->execute();
+    $stmtUserRatings->close();
+
     // Usuń zależności od użytkownika w innych tabelach
     $deleteCourseRatingsSql = "DELETE FROM course_ratings WHERE user_id = ?";
     $stmtCourseRatings = $conn->prepare($deleteCourseRatingsSql);
