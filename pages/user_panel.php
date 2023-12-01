@@ -8,6 +8,7 @@ if (!isset($_SESSION['username'])) {
     header("Location: /phpsql/pages/login.php");
     exit;
 }
+echo "Rola użytkownika: " . $_SESSION['role'];
 
 // Pobierz informacje o zalogowanym użytkowniku (możesz pobierać więcej informacji z bazy danych, jeśli potrzebujesz)
 $username = $_SESSION['username'];
@@ -27,8 +28,6 @@ $username = $_SESSION['username'];
     <?php include '../includes/header.php'; ?>
 
     <div class="container">
-    // Dodaj poniższe linie i sprawdź, czy poprawnie odczytujesz rolę
-    <?php echo "Rola użytkownika: " . $_SESSION['role'];?>
         <h2 class ='login_h2'>Witaj, <?php echo $username; ?>, w Twoim Panelu Użytkownika!</h2>
 
         <!-- Dodaj linki do różnych funkcji dostępnych dla zalogowanego użytkownika -->
