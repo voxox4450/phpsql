@@ -1,5 +1,5 @@
 <!-- pages/profile.php -->
-
+<?php include('../settings.php');?>
 <?php session_start();
 // Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['username'])) {
@@ -33,7 +33,7 @@ $username = $_SESSION['username']; ?>
             }
             echo '</ul>';
         } else {
-            echo 'Nie ukończyłeś jeszcze żadnych kursów.\n';
+            echo 'Nie ukończyłeś jeszcze żadnych kursów';
             echo '<br>';
         }
         ?>
