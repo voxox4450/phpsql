@@ -15,8 +15,7 @@
                 <?php
                 $role = $_SESSION['role']
                 if (isset($_SESSION['username'])) {
-                    $role = $_SESSION['role'];
-                    if ($role === 'user') {
+                    if ($_SESSION['role'] == 'admin') {
                         // Jeśli użytkownik jest administratorem, wyświetl panel administratora
                         echo '<li><a href="/phpsql/pages/admin_panel.php">Panel administratora</a></li>';
                     } 
