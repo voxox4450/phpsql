@@ -32,18 +32,27 @@ if ($result->num_rows > 0) {
     exit;
 }
 
+// Funkcja walidująca
+function validate($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
 // Obsługa formularza zmiany hasła
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Pobierz dane z formularza
-    $currentPassword = $_POST['current_password'];
-    $newPassword = $_POST['new_password'];
-    $confirmNewPassword = $_POST['confirm_new_password'];
+    $currentPassword = validate($_POST['current_password']);
+    $newPassword = validate($_POST['new_password']);
+    $confirmNewPassword = validate($_POST['confirm_new_password']);
 
     // Sprawdź, czy aktualne hasło jest poprawne
     if (password_verify($currentPassword, $row['password'])) {
         // Aktualne hasło jest poprawne
         if ($newPassword === $confirmNewPassword) {
-            // Walidacja nowego hasła (możesz dostosować zasady walidacji)
+            // Walidacja nowego hasła
             if (strlen($newPassword) < 8) {
                 $error_message = "Nowe hasło musi mieć co najmniej 8 znaków.";
             } elseif (!preg_match("/[A-Z]/", $newPassword)) {
