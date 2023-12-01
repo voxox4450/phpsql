@@ -13,8 +13,9 @@
             <ul>
                 <li><a href="/phpsql/index.php">Strona główna</a></li>
                 <?php
-                $role = $_SESSION['role'];
+                
                 if (isset($_SESSION['username'])) {
+                    $role = $_SESSION['role'];
                     if ($_SESSION['role'] == 'admin') {
                         // Jeśli użytkownik jest administratorem, wyświetl panel administratora
                         echo '<li><a href="/phpsql/pages/admin_panel.php">Panel administratora</a></li>';
