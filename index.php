@@ -14,7 +14,11 @@ session_start();
 
     <div class="container">
         <h1 class='login_h2'>Witaj na Platformie Kursów Online</h1>
+        <?php 
+         if (isset($_SESSION['username'])) {
         <p class = "main_p"><a href='/phpsql/pages/login.php'> Zaloguj się </a> lub <a href= '/phpsql/pages/register.php'> zarejestruj</a> , aby rozpocząć naukę.</p>
+         }
+        ?>
     </div>
 
     <?php include 'includes/footer.php'; ?>
