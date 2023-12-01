@@ -25,7 +25,8 @@ echo "Rola użytkownika: " . $_SESSION['role'];
     <?php include '../includes/header.php'; ?>
 
     <div class="container">
-        <h2 class ='login_h2'>Witaj, <?php echo $username; ?>, w Twoim Panelu Użytkownika!</h2>
+        <h2 class='login_h2'>Witaj, <?php echo $_SESSION['username']; ?>, w Twoim Panelu Użytkownika!</h2>
+
 
         <!-- Dodaj linki do różnych funkcji dostępnych dla zalogowanego użytkownika -->
         <ul>
