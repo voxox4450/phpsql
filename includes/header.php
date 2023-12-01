@@ -21,6 +21,7 @@
                         // W przeciwnym razie wyświetl panel użytkownika
                         echo '<li><a href="/phpsql/pages/user_panel.php">Panel użytkownika</a></li>';
                     }
+                    echo '<li><a href="/phpsql/pages/profile.php">Profil</a></li>';
                     echo '<li><a href="/phpsql/pages/logout.php">Wyloguj</a></li>';
                     echo '<li><a href="/phpsql/pages/courses.php">Kursy</a></li>';
                 } else {
