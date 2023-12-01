@@ -35,23 +35,37 @@ if ($result->num_rows > 0) {
 // Obsługa formularza edycji profilu
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Pobierz dane z formularza
-    $newUsername = $_POST['new_username'];
+    $newUsername = validate($_POST['new_username']);
 
-    // Aktualizuj dane użytkownika w bazie danych
-    $updateSql = "UPDATE users SET username='$newUsername' WHERE id=$userId";
-
-    if ($conn->query($updateSql) === TRUE) {
-        // Aktualizacja zakończona sukcesem
-        $_SESSION['username'] = $newUsername; // Zaktualizuj dane sesji
-        header("Location: /phpsql/pages/profile.php");
-        exit;
+    // Dodatkowa walidacja dla nazwy użytkownika
+    if (strlen($newUsername) < 5) {
+        $error_message = "Nowa nazwa użytkownika musi mieć co najmniej 5 znaków.";
     } else {
-        // Błąd podczas aktualizacji
-        $error_message = "Błąd podczas aktualizacji danych. Spróbuj ponownie.";
+        // Aktualizuj dane użytkownika w bazie danych
+        $updateSql = "UPDATE users SET username='$newUsername' WHERE id=$userId";
+
+        if ($conn->query($updateSql) === TRUE) {
+            // Aktualizacja zakończona sukcesem
+            $_SESSION['username'] = $newUsername; // Zaktualizuj dane sesji
+            header("Location: /phpsql/pages/profile.php");
+            exit;
+        } else {
+            // Błąd podczas aktualizacji
+            $error_message = "Błąd podczas aktualizacji danych. Spróbuj ponownie.";
+        }
     }
 }
 
 $conn->close();
+
+// Funkcja do walidacji danych
+function validate($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 ?>
 
 <!DOCTYPE html>
