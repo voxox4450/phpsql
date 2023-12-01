@@ -1,5 +1,5 @@
 <?php
-// user_panel.php
+// add_course.php
 
 session_start();
 
@@ -27,18 +27,28 @@ $username = $_SESSION['username'];
     <?php include '../includes/header.php'; ?>
 
     <div class="container width_30">
-        <h2 class = 'login_h2'>Dodaj nowy kurs</h2>
-        <form class = 'flex_column gap_5' action="/phpsql/actions/add_course_process.php" method="post">
-        <div class="flex_column gap_4">
-            <label for="title">Tytuł kursu:</label>
-            <input type="text" name="title" required>
-        </div>
-        <div class="flex_column gap_4">
-            <label for="description">Opis kursu:</label>
-            <textarea name="description" rows="4" required></textarea>
-        </div>
+        <h2 class="login_h2">Dodaj nowy kurs</h2>
+
+
+        <form class="flex_column gap_5" action="/phpsql/actions/add_course_process.php" method="post">
+            <div class="flex_column gap_4">
+                <label for="title">Tytuł kursu:</label>
+                <input type="text" name="title" required>
+            </div>
+            <div class="flex_column gap_4">
+                <label for="description">Opis kursu:</label>
+                <textarea name="description" rows="4" required></textarea>
+            </div>
             <button type="submit">Dodaj kurs</button>
         </form>
+        <?php
+        // Wyświetlanie komunikatów o błędach, jeśli istnieją
+        if (isset($_GET['error']) && !empty($_GET['error'])) {
+            echo '<div class="error">';
+            echo '<p>' . htmlspecialchars($_GET['error']) . '</p>';
+            echo '</div>';
+        }
+        ?>
     </div>
 
     <?php include '../includes/footer.php'; ?>
