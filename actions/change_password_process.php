@@ -54,15 +54,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($newPassword === $confirmNewPassword) {
             // Walidacja nowego hasła
             if (strlen($newPassword) < 8) {
-                $error_message = "Nowe hasło musi mieć co najmniej 8 znaków.";
+                $_SESSION['error_messages'][] = "Nowe hasło musi mieć co najmniej 8 znaków.";
             } elseif (!preg_match("/[A-Z]/", $newPassword)) {
-                $error_message = "Nowe hasło musi zawierać przynajmniej jedną wielką literę.";
+                $_SESSION['error_messages'][] = "Nowe hasło musi zawierać przynajmniej jedną wielką literę.";
             } elseif (!preg_match("/[a-z]/", $newPassword)) {
-                $error_message = "Nowe hasło musi zawierać przynajmniej jedną małą literę.";
+                $_SESSION['error_messages'][] = "Nowe hasło musi zawierać przynajmniej jedną małą literę.";
             } elseif (!preg_match("/\d/", $newPassword)) {
-                $error_message = "Nowe hasło musi zawierać przynajmniej jedną cyfrę.";
+                $_SESSION['error_messages'][] = "Nowe hasło musi zawierać przynajmniej jedną cyfrę.";
             } elseif (!preg_match("/[^a-zA-Z\d]/", $newPassword)) {
-                $error_message = "Nowe hasło musi zawierać przynajmniej jeden znak specjalny.";
+                $_SESSION['error_messages'][] = "Nowe hasło musi zawierać przynajmniej jeden znak specjalny.";
             } else {
                 // Nowe hasło zostało potwierdzone
                 $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -78,20 +78,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit;
                 } else {
                     // Błąd podczas aktualizacji hasła
-                    $error_message = "Błąd podczas aktualizacji hasła. Spróbuj ponownie.";
+                    $_SESSION['error_messages'][] = "Błąd podczas aktualizacji hasła. Spróbuj ponownie.";
                 }
             }
         } else {
             // Nowe hasła nie pasują do siebie
-            $error_message = "Nowe hasło i jego potwierdzenie muszą być identyczne.";
+            $_SESSION['error_messages'][] = "Nowe hasło i jego potwierdzenie muszą być identyczne.";
         }
     } else {
         // Aktualne hasło jest niepoprawne
-        $error_message = "Aktualne hasło jest niepoprawne.";
+        $_SESSION['error_messages'][] = "Aktualne hasło jest niepoprawne.";
     }
 }
 
 $conn->close();
-header("Location: /phpsql/pages/change_password.php?error=" . urlencode($error_message)); // Przekieruj z powrotem do formularza z hasłem z komunikatem błędu
+header("Location: /phpsql/pages/change_password.php"); // Przekieruj z powrotem do formularza z hasłem
 exit;
 ?>
