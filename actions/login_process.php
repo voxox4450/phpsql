@@ -32,12 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $userData['username'];  // Ustawienie danych sesji
             $_SESSION['role'] = $userData['role']; // Dodanie informacji o roli
             $_SESSION['success_message'] = "Zalogowano pomyślnie!";
-             // Przekierowanie w zależności od roli
-             if ($_SESSION['role'] == 'admin') {
-                header("Location: /phpsql/pages/admin_panel.php");
-            } else {
-                header("Location: /phpsql/pages/user_panel.php");
-            }
+            header("Location: /phpsql/pages/profile.php");
             exit; // Zakończ po przekierowaniu
         } else {
             // Błąd logowania - ustaw komunikat o błędzie w sesji
