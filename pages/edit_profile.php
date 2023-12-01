@@ -82,12 +82,6 @@ function validate($data)
     <div class="container width_30">
         <h2 class="login_h2">Edytuj Profil</h2>
 
-        <?php
-        if (isset($error_message)) {
-            echo '<p class="error">' . $error_message . '</p>';
-        }
-        ?>
-
         <form class="flex_column gap_5" action="edit_profile.php" method="post">
             <div class="flex_column gap_4">  
                 <label for="new_username">Nowa Nazwa Użytkownika:</label>
@@ -96,6 +90,12 @@ function validate($data)
         
             <button type="submit">Zapisz Zmiany</button>
         </form>
+        
+        <?php
+        if (isset($error_message)) {
+            echo '<p class="error">' . $error_message . '</p>';
+        }
+        ?>
     </div>
 
     <?php include '../includes/footer.php'; ?>

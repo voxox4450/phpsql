@@ -24,18 +24,6 @@ if (!isset($_SESSION['username'])) {
     <div class="container width_30">
         <h2 class = 'login_h2'>Zmień Hasło</h2>
 
-        <?php
-        // Wyświetlanie komunikatów o błędach, jeśli istnieją
-        if (isset($_SESSION['error_messages']) && !empty($_SESSION['error_messages'])) {
-            echo '<div class="error">';
-            foreach ($_SESSION['error_messages'] as $error_message) {
-                echo '<p>' . $error_message . '</p>';
-            }
-            echo '</div>';
-            unset($_SESSION['error_messages']); // Usunięcie komunikatów o błędach po wyświetleniu
-        }
-        ?>
-
         <form class = 'flex_column gap_5' action="/phpsql/actions/change_password_process.php" method="post">
         <div class="flex_column gap_4">
             <label for="current_password">Aktualne Hasło:</label>
@@ -52,6 +40,18 @@ if (!isset($_SESSION['username'])) {
         </div>
             <button type="submit">Zmień Hasło</button>
         </form>
+        
+    <?php
+        // Wyświetlanie komunikatów o błędach, jeśli istnieją
+        if (isset($_SESSION['error_messages']) && !empty($_SESSION['error_messages'])) {
+            echo '<div class="error">';
+            foreach ($_SESSION['error_messages'] as $error_message) {
+                echo '<p>' . $error_message . '</p>';
+            }
+            echo '</div>';
+            unset($_SESSION['error_messages']); // Usunięcie komunikatów o błędach po wyświetleniu
+        }
+        ?>
     </div>
 
     <?php include '../includes/footer.php'; ?>
