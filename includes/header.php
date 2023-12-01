@@ -14,7 +14,13 @@
                 <li><a href="/phpsql/index.php">Strona główna</a></li>
                 <?php
                 if (isset($_SESSION['username'])) {
-                    echo '<li><a href="/phpsql/pages/user_panel.php">Panel użytkownika</a></li>';
+                    if ($_SESSION['role'] == 'admin') {
+                        // Jeśli użytkownik jest administratorem, wyświetl panel administratora
+                        echo '<li><a href="/phpsql/pages/admin_panel.php">Panel administratora</a></li>';
+                    } else {
+                        // W przeciwnym razie wyświetl panel użytkownika
+                        echo '<li><a href="/phpsql/pages/user_panel.php">Panel użytkownika</a></li>';
+                    }
                     echo '<li><a href="/phpsql/pages/logout.php">Wyloguj</a></li>';
                     echo '<li><a href="/phpsql/pages/courses.php">Kursy</a></li>';
                 } else {
@@ -26,3 +32,5 @@
             </ul>
         </nav>
     </header>
+</body>
+</html>
