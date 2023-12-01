@@ -31,7 +31,7 @@ if ($result->num_rows > 0) {
 
 include '../includes/header.php';
 
-echo '<div class="container">';
+echo '<div class="container login_h2 flex_column gap_5">';
 echo '<h2>Wykonaj Kurs</h2>';
 echo '<p>Tytuł: ' . $title . '</p>';
 

@@ -56,10 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
         $result = $conn->query($checkCompletionSql);
 
         include '../includes/header.php';
-
         if ($result->num_rows > 0) {
             // Użytkownik ukończył kurs, umożliwiamy ocenę
-            echo '<div class="container">';
+            echo '<div class="container login_h2 flex_column gap_5">';
             echo '<h2>Przeglądaj Kurs</h2>';
             echo '<p>Tytuł: ' . $title . '</p>';
             echo '<p>Opis: ' . $description . '</p>';
@@ -78,8 +77,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
 
             // Dodaj przycisk "Rozpocznij Kurs Ponownie"
             echo '<h3>Oceń kurs:</h3>';
-            echo '<form method="post" action="../actions/rate_course_process.php">';
+            echo '<form class="flex_column"method="post" action="../actions/rate_course_process.php">';
             echo '<input type="hidden" name="course_id" value="' . $course_id . '">';
+            echo '<div class= "flex_column gap_5 width_30 text_center">';
             echo '<label for="rating">Wybierz ocenę od 1 do 5:</label>';
             echo '<select name="rating" required>';
             echo '<option value="1">1 gwiazdka</option>';
@@ -88,7 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
             echo '<option value="4">4 gwiazdki</option>';
             echo '<option value="5">5 gwiazdek</option>';
             echo '</select>';
-            echo '<button type="submit">Oceń</button>';
+            echo '</div>';
+            echo '<button class="width_30 text_center" type="submit">Oceń</button>';
             echo '</form>';
 
             // Dodaj przycisk "Rozpocznij Kurs Ponownie"
@@ -98,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
             echo '</form>';
         } else {
             // Użytkownik nie ukończył kursu, przekieruj na stronę rozpoczęcia kursu
-            echo '<div class="container">';
+            echo '<div class="container login_h2 flex_column gap_5">';
             echo '<h2>Przeglądaj Kurs</h2>';
             echo '<p>Tytuł: ' . $title . '</p>';
             echo '<p>Opis: ' . $description . '</p>';

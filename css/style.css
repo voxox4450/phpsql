@@ -152,3 +152,6 @@ nav ul {
 .course a{
     margin-top: 0.3rem;
 }
+.text_center{
+    margin: 10px auto;
+}
