@@ -28,12 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $courseData = $result->fetch_assoc();
         $creator_id = $courseData['creator_id'];
 
-        // Jeśli użytkownik nie jest twórcą kursu, przekieruj do panelu administratora
-        if ($_SESSION['user_id'] !== $creator_id) {
-            header("Location: /phpsql/pages/admin_panel.php");
-            exit;
-        }
-
         // Zaktualizuj dane kursu w bazie danych
         $updateSql = "UPDATE courses SET title='$title', description='$description' WHERE id=$course_id";
 
@@ -49,6 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Zamknij połączenie z bazą danych
     $conn->close();
+}
+// Jeśli użytkownik nie jest twórcą kursu, przekieruj do panelu administratora
+if ($_SESSION['user_id'] !== $creator_id) {
+    header("Location: /phpsql/pages/admin_panel.php");
+    exit;
 }
 header("Location: /phpsql/pages/manage_courses.php");
 exit;
