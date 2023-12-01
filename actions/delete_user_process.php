@@ -27,42 +27,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
                                     WHERE c.creator_id = ?";
     $stmtUserCourseRatings = $conn->prepare($deleteUserCourseRatingsSql);
     $stmtUserCourseRatings->bind_param("i", $user_id);
-    $stmtUserCourseRatings->execute();
-    $stmtUserCourseRatings->close();
+    if ($stmtUserCourseRatings->execute()) {
+        $stmtUserCourseRatings->close();
+    } else {
+        echo "Błąd usuwania ocen kursów utworzonych przez użytkownika: " . $stmtUserCourseRatings->error;
+        $stmtUserCourseRatings->close();
+    }
 
     // Usuń oceny kursów wystawione przez użytkownika
     $deleteUserRatingsSql = "DELETE FROM course_ratings WHERE user_id = ?";
     $stmtUserRatings = $conn->prepare($deleteUserRatingsSql);
     $stmtUserRatings->bind_param("i", $user_id);
-    $stmtUserRatings->execute();
-    $stmtUserRatings->close();
+    if ($stmtUserRatings->execute()) {
+        $stmtUserRatings->close();
+    } else {
+        echo "Błąd usuwania ocen kursów wystawionych przez użytkownika: " . $stmtUserRatings->error;
+        $stmtUserRatings->close();
+    }
 
     // Usuń zależności od użytkownika w innych tabelach
-    $deleteCourseRatingsSql = "DELETE FROM course_ratings WHERE user_id = ?";
-    $stmtCourseRatings = $conn->prepare($deleteCourseRatingsSql);
-    $stmtCourseRatings->bind_param("i", $user_id);
-    $stmtCourseRatings->execute();
-    $stmtCourseRatings->close();
-
     $deleteCompletedCoursesSql = "DELETE FROM completed_courses WHERE user_id = ?";
     $stmtCompletedCourses = $conn->prepare($deleteCompletedCoursesSql);
     $stmtCompletedCourses->bind_param("i", $user_id);
-    $stmtCompletedCourses->execute();
-    $stmtCompletedCourses->close();
+    if ($stmtCompletedCourses->execute()) {
+        $stmtCompletedCourses->close();
+    } else {
+        echo "Błąd usuwania zależności od użytkownika w tabeli completed_courses: " . $stmtCompletedCourses->error;
+        $stmtCompletedCourses->close();
+    }
 
     // Usuń kursy utworzone przez użytkownika
     $deleteUserCoursesSql = "DELETE FROM courses WHERE creator_id = ?";
     $stmtUserCourses = $conn->prepare($deleteUserCoursesSql);
     $stmtUserCourses->bind_param("i", $user_id);
-    $stmtUserCourses->execute();
-    $stmtUserCourses->close();
+    if ($stmtUserCourses->execute()) {
+        $stmtUserCourses->close();
+    } else {
+        echo "Błąd usuwania kursów utworzonych przez użytkownika: " . $stmtUserCourses->error;
+        $stmtUserCourses->close();
+    }
 
     // Usuń użytkownika z bazy danych
     $deleteUserSql = "DELETE FROM users WHERE id = ?";
     $stmt = $conn->prepare($deleteUserSql);
     $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $stmt->close();
+    if ($stmt->execute()) {
+        $stmt->close();
+    } else {
+        echo "Błąd usuwania użytkownika: " . $stmt->error;
+        $stmt->close();
+    }
 
     $_SESSION['success_message'] = "Użytkownik został pomyślnie usunięty.";
 
