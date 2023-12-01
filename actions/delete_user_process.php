@@ -2,8 +2,8 @@
 // delete_user_process.php
 session_start();
 
-// Sprawdzenie, czy użytkownik jest zalogowany
-if (!isset($_SESSION['username'])) {
+// Sprawdź, czy użytkownik jest zalogowany i ma rolę admina
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     header("Location: /phpsql/pages/login.php");
     exit;
 }
@@ -20,6 +20,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
         header("Location: /phpsql/pages/admin_panel.php");
         exit;
     }
+
+    // Usuń zależności od użytkownika w innych tabelach
+    $deleteCourseRatingsSql = "DELETE FROM course_ratings WHERE user_id = ?";
+    $stmtCourseRatings = $conn->prepare($deleteCourseRatingsSql);
+    $stmtCourseRatings->bind_param("i", $user_id);
+    $stmtCourseRatings->execute();
+    $stmtCourseRatings->close();
+
+    $deleteCompletedCoursesSql = "DELETE FROM completed_courses WHERE user_id = ?";
+    $stmtCompletedCourses = $conn->prepare($deleteCompletedCoursesSql);
+    $stmtCompletedCourses->bind_param("i", $user_id);
+    $stmtCompletedCourses->execute();
+    $stmtCompletedCourses->close();
+
+    // Usuń kursy utworzone przez użytkownika
+    $deleteUserCoursesSql = "DELETE FROM courses WHERE creator_id = ?";
+    $stmtUserCourses = $conn->prepare($deleteUserCoursesSql);
+    $stmtUserCourses->bind_param("i", $user_id);
+    $stmtUserCourses->execute();
+    $stmtUserCourses->close();
 
     // Usuń użytkownika z bazy danych
     $deleteUserSql = "DELETE FROM users WHERE id = ?";
