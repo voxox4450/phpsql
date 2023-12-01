@@ -16,7 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST["title"];
     $description = $_POST["description"];
 
-    // Tutaj możesz dodać walidację danych, jeśli to konieczne
+    // Prosta walidacja długości tytułu i opisu
+    if (strlen($title) < 6 || strlen($description) < 25) {
+        $error_message = "Tytuł musi mieć co najmniej 6 znaków, a opis co najmniej 25 znaków.";
+        header("Location: /phpsql/pages/edit_course.php?id=$course_id&error=" . urlencode($error_message));
+        exit;
+    }
 
     include('../settings.php');
 

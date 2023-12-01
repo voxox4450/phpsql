@@ -28,12 +28,9 @@ $course_id = $_GET['id'];
     <?php include '../includes/header.php'; ?>
 
     <div class="container width_30">
-        <h2 class = 'login_h2'>Edytuj Kurs</h2>
-        <?php
-            // Tutaj dodaj kod do pobierania danych kursu na podstawie przekazanego ID (z $_GET['id'])
-            // i wypełnij nimi formularz edycji
-        ?>
-        <form class = 'flex_column gap_5' action="/phpsql/actions/edit_course_process.php" method="post">
+        <h2 class='login_h2'>Edytuj Kurs</h2>
+      
+        <form class='flex_column gap_5' action="/phpsql/actions/edit_course_process.php" method="post">
             <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
         <div class="flex_column gap_4">
             <label for="title">Tytuł kursu:</label>
@@ -46,6 +43,17 @@ $course_id = $_GET['id'];
 
             <button type="submit">Zapisz zmiany</button>
         </form>
+        <?php
+            // Obsługa komunikatu o błędzie
+            if (isset($_GET['error']) && !empty($_GET['error'])) {
+                echo '<div class="error">';
+                echo '<p>' . $_GET['error'] . '</p>';
+                echo '</div>';
+            }
+
+            // Tutaj dodaj kod do pobierania danych kursu na podstawie przekazanego ID (z $_GET['id'])
+            // i wypełnij nimi formularz edycji
+        ?>
     </div>
 
     <?php include '../includes/footer.php'; ?>
