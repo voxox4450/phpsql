@@ -40,42 +40,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirmNewPassword = $_POST['confirm_new_password'];
 
     // Sprawdź, czy aktualne hasło jest poprawne
-if (password_verify($currentPassword, $row['password'])) {
-    // Aktualne hasło jest poprawne
-    if ($newPassword === $confirmNewPassword) {
-        // Walidacja nowego hasła (możesz dostosować zasady walidacji)
-        if (strlen($newPassword) < 8) {
-            $error_message = "Nowe hasło musi mieć co najmniej 8 znaków.";
-        } else {
-            // Nowe hasło zostało potwierdzone
-            $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-
-            // Aktualizuj hasło w bazie danych (parametryzowane zapytanie)
-            $updateSql = "UPDATE users SET password=? WHERE id=?";
-            $stmt = $conn->prepare($updateSql);
-            $stmt->bind_param("si", $hashedNewPassword, $userId);
-
-            if ($stmt->execute()) {
-                // Aktualizacja hasła zakończona sukcesem
-                header("Location: /phpsql/pages/profile.php");
-                exit;
+    if (password_verify($currentPassword, $row['password'])) {
+        // Aktualne hasło jest poprawne
+        if ($newPassword === $confirmNewPassword) {
+            // Walidacja nowego hasła (możesz dostosować zasady walidacji)
+            if (strlen($newPassword) < 8) {
+                $error_message = "Nowe hasło musi mieć co najmniej 8 znaków.";
+            } elseif (!preg_match("/[A-Z]/", $newPassword)) {
+                $error_message = "Nowe hasło musi zawierać przynajmniej jedną wielką literę.";
+            } elseif (!preg_match("/[a-z]/", $newPassword)) {
+                $error_message = "Nowe hasło musi zawierać przynajmniej jedną małą literę.";
+            } elseif (!preg_match("/\d/", $newPassword)) {
+                $error_message = "Nowe hasło musi zawierać przynajmniej jedną cyfrę.";
+            } elseif (!preg_match("/[^a-zA-Z\d]/", $newPassword)) {
+                $error_message = "Nowe hasło musi zawierać przynajmniej jeden znak specjalny.";
             } else {
-                // Błąd podczas aktualizacji hasła
-                $error_message = "Błąd podczas aktualizacji hasła. Spróbuj ponownie.";
+                // Nowe hasło zostało potwierdzone
+                $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+                // Aktualizuj hasło w bazie danych (parametryzowane zapytanie)
+                $updateSql = "UPDATE users SET password=? WHERE id=?";
+                $stmt = $conn->prepare($updateSql);
+                $stmt->bind_param("si", $hashedNewPassword, $userId);
+
+                if ($stmt->execute()) {
+                    // Aktualizacja hasła zakończona sukcesem
+                    header("Location: /phpsql/pages/profile.php");
+                    exit;
+                } else {
+                    // Błąd podczas aktualizacji hasła
+                    $error_message = "Błąd podczas aktualizacji hasła. Spróbuj ponownie.";
+                }
             }
+        } else {
+            // Nowe hasła nie pasują do siebie
+            $error_message = "Nowe hasło i jego potwierdzenie muszą być identyczne.";
         }
     } else {
-        // Nowe hasła nie pasują do siebie
-        $error_message = "Nowe hasło i jego potwierdzenie muszą być identyczne.";
+        // Aktualne hasło jest niepoprawne
+        $error_message = "Aktualne hasło jest niepoprawne.";
     }
-} else {
-    // Aktualne hasło jest niepoprawne
-    $error_message = "Aktualne hasło jest niepoprawne.";
-}
-
 }
 
 $conn->close();
-header("Location: /phpsql/pages/change_password.php"); // Przekieruj z powrotem do formularza z hasłem
+header("Location: /phpsql/pages/change_password.php?error=" . urlencode($error_message)); // Przekieruj z powrotem do formularza z hasłem z komunikatem błędu
 exit;
 ?>
