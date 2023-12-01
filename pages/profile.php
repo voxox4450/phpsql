@@ -34,6 +34,7 @@ $username = $_SESSION['username']; ?>
             echo '</ul>';
         } else {
             echo 'Nie ukończyłeś jeszcze żadnych kursów.\n';
+            echo <br>;
         }
         ?>
 
