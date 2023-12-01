@@ -16,8 +16,6 @@ if ($coursesResult->num_rows > 0) {
         $courses[] = $courseData;
     }
 }
-
-include '../includes/header.php';
 ?>
 
 <!DOCTYPE html>
@@ -29,9 +27,9 @@ include '../includes/header.php';
     <title>Kursy</title>
 </head>
 <body>
-
+<?php include '../includes/header.php';?>
     <div class="container">
-        <h2>Kursy</h2>
+        <h2 class = 'login_h2'>Kursy</h2>
         <?php
         // Wyświetl kursy
         if (!empty($courses)) {

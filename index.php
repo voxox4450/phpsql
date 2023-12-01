@@ -13,8 +13,8 @@ session_start();
     <?php include 'includes/header.php'; ?>
 
     <div class="container">
-        <h1>Witaj na Platformie Kursów Online</h1>
-        <p>Zaloguj się lub zarejestruj, aby rozpocząć naukę.</p>
+        <h1 class='login_h2'>Witaj na Platformie Kursów Online</h1>
+        <p class = "main_p"><a href='/phpsql/pages/login.php'> Zaloguj się </a> lub <a href= '/phpsql/pages/register.php'> zarejestruj</a> , aby rozpocząć naukę.</p>
     </div>
 
     <?php include 'includes/footer.php'; ?>

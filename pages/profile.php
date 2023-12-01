@@ -10,7 +10,7 @@ if (!isset($_SESSION['username'])) {
 $username = $_SESSION['username']; ?>
 <?php include '../includes/header.php'; ?>
 
-<div class="container">
+<div class="container login_h2">
     <h2>Profil Użytkownika</h2>
     <!-- ... Treść strony profilu ... -->
 

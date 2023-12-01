@@ -1,30 +1,154 @@
+/* makes sizing simpler */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* remove default spacing */
+/* force styling of type through styling, rather than elements */
+
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+/* dark mode user-agent-styles */
+
+html {
+  color-scheme: dark light;
+}
+
+ul, ol, li{
+    list-style: none;
+}
+
+/* min body height */
+
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Lato',sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #1f1b1b;
+}
+
+/* responsive images/videos */
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
 }
 
 .container {
-    max-width: 800px;
+    width: 90%;
     margin: 0 auto;
     padding: 20px;
+    flex: 8;
 }
 
 header {
-    background-color: #333;
+    background-color: #0e0d0d;
     color: #fff;
-    padding: 10px 0;
+    padding: 10px 5px;
+    flex: 1;
+    display: grid;
+    place-content: center;
+}
+
+.container h1{
+    font-size: 2rem;
+}
+
+footer{
+    flex: 1;
+    display: grid;
+    place-content: center;
+    background-color: #0e0d0d
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 20px;
+    font-style: italic;
+}
+
+a:hover{
+    color: red;
 }
 
 nav ul {
-    list-style: none;
-    padding: 0;
+    display: flex;
+    gap: 2rem;
+
 }
 
-nav ul li {
-    display: inline;
-    margin-right: 20px;
+.main_p{
+    text-align: center;
+    margin-top: 0.5rem;
+}
+.width_30{
+    width: 30%;
 }
 
-nav a {
-    color: #fff;
-    text-decoration: none;
+.flex_row{
+    display: flex;
+}
+
+.flex_column{
+    display: flex;
+    flex-direction: column;
+}
+.login_h2{
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.gap_1{
+    gap: 1px;
+}
+
+.gap_2{
+    gap: 2px;
+}
+
+.gap_3{
+    gap: 3px;
+}
+
+.gap_4{
+    gap: 4px;
+}
+
+.gap_5{
+    gap: 10px;
+}
+
+.course{
+    border: 1px solid white;
+    border-radius: 30px;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    
+}
+.course h3{
+    font-size: 1.5rem;
+}
+
+.course p:nth-of-type(1){
+    margin-top: 0.3rem;
+
+}
+.course p:nth-of-type(2){
+    margin-top: 0.3rem;
+}
+.course a{
+    margin-top: 0.3rem;
 }

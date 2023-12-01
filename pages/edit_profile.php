@@ -57,7 +57,7 @@ $conn->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,8 +67,8 @@ $conn->close();
 <body>
     <?php include '../includes/header.php'; ?>
 
-    <div class="container">
-        <h2>Edytuj Profil</h2>
+    <div class="container width_30">
+        <h2 class = 'login_h2'>Edytuj Profil</h2>
 
         <?php
         if (isset($error_message)) {
@@ -76,16 +76,19 @@ $conn->close();
         }
         ?>
 
-        <form action="edit_profile.php" method="post">
+        <form class = 'flex_column gap_5' action="edit_profile.php" method="post">
+        <div class="flex_column gap_4">  
             <label for="new_username">Nowa Nazwa Użytkownika:</label>
             <input type="text" name="new_username" value="<?php echo $username; ?>" required>
-
+        </div>
+        
+        <div class="flex_column gap_4">  
             <label for="new_role">Nowa Rola:</label>
             <select name="new_role">
                 <option value="user" <?php if ($userRole == 'user') echo 'selected'; ?>>Użytkownik</option>
                 <option value="admin" <?php if ($userRole == 'admin') echo 'selected'; ?>>Administrator</option>
             </select>
-
+        </div>
             <button type="submit">Zapisz Zmiany</button>
         </form>
     </div>

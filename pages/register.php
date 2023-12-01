@@ -13,16 +13,19 @@ session_start();
 <body>
     <?php include '../includes/header.php'; ?>
 
-    <div class="container">
-        <h2>Zarejestruj się</h2>
+    <div class="container width_30">
+        <h2 class = 'login_h2'>Zarejestruj się</h2>
 
-        <form action="/phpsql/actions/register_process.php" method="post">
+        <form class = 'flex_column gap_5' action="/phpsql/actions/register_process.php" method="post">
+        <div class="flex_column gap_4">    
             <label for="username">Nazwa użytkownika:</label>
             <input type="text" name="username" required>
+        </div>
+        <div class="flex_column gap_4">
 
             <label for="password">Hasło:</label>
             <input type="password" name="password" required>
-
+        </div>
             <button type="submit">Zarejestruj się</button>
         </form>
         <?php

@@ -16,7 +16,7 @@ $username = $_SESSION['username'];
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,15 +26,17 @@ $username = $_SESSION['username'];
 <body>
     <?php include '../includes/header.php'; ?>
 
-    <div class="container">
-        <h2>Dodaj nowy kurs</h2>
-        <form action="/phpsql/actions/add_course_process.php" method="post">
+    <div class="container width_30">
+        <h2 class = 'login_h2'>Dodaj nowy kurs</h2>
+        <form class = 'flex_column gap_5' action="/phpsql/actions/add_course_process.php" method="post">
+        <div class="flex_column gap_4">
             <label for="title">Tytuł kursu:</label>
             <input type="text" name="title" required>
-
+        </div>
+        <div class="flex_column gap_4">
             <label for="description">Opis kursu:</label>
             <textarea name="description" rows="4" required></textarea>
-            
+        </div>
             <button type="submit">Dodaj kurs</button>
         </form>
     </div>

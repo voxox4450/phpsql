@@ -25,23 +25,25 @@ $course_id = $_GET['id'];
     <title>Edytuj Kurs</title>
 </head>
 <body>
-    <?php include '../includes/header.php'; ?>>
+    <?php include '../includes/header.php'; ?>
 
-    <div class="container">
-        <h2>Edytuj Kurs</h2>
+    <div class="container width_30">
+        <h2 class = 'login_h2'>Edytuj Kurs</h2>
         <?php
             // Tutaj dodaj kod do pobierania danych kursu na podstawie przekazanego ID (z $_GET['id'])
             // i wypełnij nimi formularz edycji
         ?>
-        <form action="/phpsql/actions/edit_course_process.php" method="post">
+        <form class = 'flex_column gap_5' action="/phpsql/actions/edit_course_process.php" method="post">
             <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
-            
+        <div class="flex_column gap_4">
             <label for="title">Tytuł kursu:</label>
             <input type="text" name="title" value="" required>
-
+        </div>
+        <div class="flex_column gap_4">
             <label for="description">Opis kursu:</label>
             <textarea name="description" rows="4" required></textarea>
->
+        </div>
+
             <button type="submit">Zapisz zmiany</button>
         </form>
     </div>

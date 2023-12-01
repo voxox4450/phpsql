@@ -10,16 +10,18 @@
     <?php include '../includes/header.php';
     session_start(); ?>
 
-    <div class="container">
-        <h2>Zaloguj się</h2>
+    <div class="container width_30">
+        <h2 class = 'login_h2'>Zaloguj się</h2>
 
-        <form action="/phpsql/actions/login_process.php" method="post">
+        <form class = 'flex_column gap_5'action="/phpsql/actions/login_process.php" method="post">
+        <div class="flex_column gap_4">    
             <label for="username">Nazwa użytkownika:</label>
             <input type="text" name="username" required>
-
+        </div>
+        <div class="flex_column gap_4">
             <label for="password">Hasło:</label>
             <input type="password" name="password" required>
-
+        </div>
             <button type="submit">Zaloguj się</button>
         </form>
     </div>
