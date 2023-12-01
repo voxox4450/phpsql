@@ -10,60 +10,64 @@ if (!isset($_SESSION['username'])) {
 
 include('../settings.php');
 
-// Funkcja walidująca
-function validate($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
 // Obsługa dodawania nowego kursu
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Pobierz dane z formularza
-    $title = validate($_POST['title']);
-    $description = validate($_POST['description']);
+    $title = $_POST['title'];
+    $description = $_POST['description'];
     $creator_id = $_SESSION['user_id']; // Pobierz ID twórcy kursu z sesji
 
-    // Walidacja tytułu
-    if (strlen($title) < 6) {
-        $_SESSION['error_messages'][] = "Tytuł musi mieć co najmniej 6 znaków.";
-        header("Location: /phpsql/pages/browse_courses.php");
-        exit;
-    }
-
-    // Walidacja opisu
-    if (strlen($description) < 25) {
-        $_SESSION['error_messages'][] = "Opis musi mieć co najmniej 25 znaków.";
-        header("Location: /phpsql/pages/browse_courses.php");
+    // Prosta walidacja długości tytułu i opisu
+    if (strlen($title) < 6 || strlen($description) < 25) {
+        $error_message = "Tytuł musi mieć co najmniej 6 znaków, a opis co najmniej 25 znaków.";
+        header("Location: /phpsql/pages/browse_courses.php?error=" . urlencode($error_message));
         exit;
     }
 
     // Sprawdzenie, czy nie ma już kursu o tym samym tytule i opisie
-    $checkExistingSql = "SELECT * FROM courses WHERE title='$title' AND description='$description'";
-    $result = $conn->query($checkExistingSql);
+    $checkDuplicateSql = "SELECT * FROM courses WHERE title = ? AND description = ?";
+    $stmtCheckDuplicate = $conn->prepare($checkDuplicateSql);
 
-    if ($result->num_rows > 0) {
-        $_SESSION['error_messages'][] = "Istnieje już kurs o tym samym tytule i opisie.";
-        header("Location: /phpsql/pages/browse_courses.php");
+    if (!$stmtCheckDuplicate) {
+        die("Prepared statement error (check duplicate): " . $conn->error);
+    }
+
+    $stmtCheckDuplicate->bind_param("ss", $title, $description);
+    $stmtCheckDuplicate->execute();
+    $stmtCheckDuplicate->store_result();
+
+    if ($stmtCheckDuplicate->num_rows > 0) {
+        // Kurs o podanym tytule i opisie już istnieje
+        $error_message = "Kurs o podanym tytule i opisie już istnieje.";
+        header("Location: /phpsql/pages/browse_courses.php?error=" . urlencode($error_message));
         exit;
     }
 
-    // Dodanie nowego kursu do bazy danych
-    $insertSql = "INSERT INTO courses (title, description, creator_id) VALUES ('$title', '$description', '$creator_id')";
+    // Wstawianie nowego kursu do bazy danych
+    $insertSql = "INSERT INTO courses (title, description, creator_id) VALUES (?, ?, ?)";
+    $stmtInsert = $conn->prepare($insertSql);
 
-    if ($conn->query($insertSql) === TRUE) {
+    if (!$stmtInsert) {
+        die("Prepared statement error (insert): " . $conn->error);
+    }
+
+    $stmtInsert->bind_param("ssi", $title, $description, $creator_id);
+
+    if ($stmtInsert->execute()) {
         // Pomyślne dodanie kursu, przekieruj na stronę z kursami
         header("Location: /phpsql/pages/browse_courses.php");
         exit;
     } else {
         // Błąd podczas dodawania kursu
-        $_SESSION['error_messages'][] = "Błąd podczas dodawania kursu. Spróbuj ponownie.";
-        header("Location: /phpsql/pages/browse_courses.php");
+        $error_message = "Błąd podczas dodawania kursu. Spróbuj ponownie.";
+        header("Location: /phpsql/pages/browse_courses.php?error=" . urlencode($error_message));
         exit;
     }
+
+    // Zamykamy prepared statement
+    $stmtCheckDuplicate->close();
+    $stmtInsert->close();
 }
 
+// Zamykamy połączenie
 $conn->close();
 ?>
