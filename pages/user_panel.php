@@ -3,6 +3,7 @@
 
 session_start();
 include('../settings.php');
+var_dump($_SESSION);
 // Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['username'])) {
     header("Location: /phpsql/pages/login.php");
@@ -10,10 +11,6 @@ if (!isset($_SESSION['username'])) {
 }
 echo "Rola użytkownika: " . $_SESSION['role'];
 
-// Pobierz informacje o zalogowanym użytkowniku (możesz pobierać więcej informacji z bazy danych, jeśli potrzebujesz)
-$username = $_SESSION['username'];
-
-// Poniżej możesz umieścić kod HTML/CSS, który wyświetli panel użytkownika
 ?>
 
 <!DOCTYPE html>
