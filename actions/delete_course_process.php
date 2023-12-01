@@ -14,18 +14,6 @@ include('../settings.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
     $course_id = $_POST['course_id'];
 
-    // Usunięcie rekordów z tabeli course_ratings związanych z danym kursem
-    $deleteRatingsSql = "DELETE FROM course_ratings WHERE course_id=?";
-    $stmtRatings = $conn->prepare($deleteRatingsSql);
-
-    if (!$stmtRatings) {
-        die("Prepared statement error (ratings): " . $conn->error);
-    }
-
-    $stmtRatings->bind_param("i", $course_id);
-    $stmtRatings->execute();
-    $stmtRatings->close();
-
     // Usunięcie kursu
     $deleteCourseSql = "DELETE FROM courses WHERE id=?";
     $stmtCourse = $conn->prepare($deleteCourseSql);
