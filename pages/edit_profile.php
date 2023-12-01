@@ -26,13 +26,6 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $userId = $row['id'];
     $userRole = $row['role'];
-
-    // Sprawdź, czy zalogowany użytkownik to admin
-    if ($userRole !== 'admin') {
-        // Użytkownik nie ma uprawnień do edytowania innych profili
-        header("Location: /phpsql/pages/profile.php");
-        exit;
-    }
 } else {
     // Użytkownik nie istnieje w bazie danych (coś poszło nie tak)
     header("Location: /phpsql/pages/login.php");
@@ -43,10 +36,9 @@ if ($result->num_rows > 0) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Pobierz dane z formularza
     $newUsername = $_POST['new_username'];
-    $newRole = $_POST['new_role'];
 
     // Aktualizuj dane użytkownika w bazie danych
-    $updateSql = "UPDATE users SET username='$newUsername', role='$newRole' WHERE id=$userId";
+    $updateSql = "UPDATE users SET username='$newUsername' WHERE id=$userId";
 
     if ($conn->query($updateSql) === TRUE) {
         // Aktualizacja zakończona sukcesem
@@ -88,13 +80,6 @@ $conn->close();
                 <input type="text" name="new_username" value="<?php echo $username; ?>" required>
             </div>
         
-            <div class="flex_column gap_4">  
-                <label for="new_role">Nowa Rola:</label>
-                <select name="new_role">
-                    <option value="user" <?php if ($userRole == 'user') echo 'selected'; ?>>Użytkownik</option>
-                    <option value="admin" <?php if ($userRole == 'admin') echo 'selected'; ?>>Administrator</option>
-                </select>
-            </div>
             <button type="submit">Zapisz Zmiany</button>
         </form>
     </div>
