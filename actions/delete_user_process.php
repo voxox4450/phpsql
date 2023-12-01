@@ -27,23 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
                                     WHERE c.creator_id = ?";
     $stmtUserCourseRatings = $conn->prepare($deleteUserCourseRatingsSql);
     $stmtUserCourseRatings->bind_param("i", $user_id);
-    if ($stmtUserCourseRatings->execute()) {
-        $stmtUserCourseRatings->close();
-    } else {
-        echo "Błąd usuwania ocen kursów utworzonych przez użytkownika: " . $stmtUserCourseRatings->error;
-        $stmtUserCourseRatings->close();
-    }
+    $stmtUserCourseRatings->execute();
+    $stmtUserCourseRatings->close();
 
     // Usuń oceny kursów wystawione przez użytkownika
     $deleteUserRatingsSql = "DELETE FROM course_ratings WHERE user_id = ?";
     $stmtUserRatings = $conn->prepare($deleteUserRatingsSql);
     $stmtUserRatings->bind_param("i", $user_id);
-    if ($stmtUserRatings->execute()) {
-        $stmtUserRatings->close();
-    } else {
-        echo "Błąd usuwania ocen kursów wystawionych przez użytkownika: " . $stmtUserRatings->error;
-        $stmtUserRatings->close();
-    }
+    $stmtUserRatings->execute();
+    $stmtUserRatings->close();
 
     // Usuń zależności od użytkownika w innych tabelach
     $deleteCompletedCoursesSql = "DELETE FROM completed_courses WHERE user_id = ?";
