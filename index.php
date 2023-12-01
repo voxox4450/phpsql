@@ -2,7 +2,7 @@
 <?php 
 session_start();
 ?>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,10 @@ session_start();
         <h1 class='login_h2'>Witaj na Platformie Kursów Online</h1>
         <?php 
          if (isset($_SESSION['username'])) {
-        <p class = "main_p"><a href='/phpsql/pages/login.php'> Zaloguj się </a> lub <a href= '/phpsql/pages/register.php'> zarejestruj</a> , aby rozpocząć naukę.</p>
+        echo '<p class = "main_p">Jesteś już zalogowany';
+         }
+         else{
+            echo '<p class = "main_p"><a href="/phpsql/pages/login.php"> Zaloguj się </a> lub <a href= "/phpsql/pages/register.php"> zarejestruj</a> , aby rozpocząć naukę.</p>';
          }
         ?>
     </div>
