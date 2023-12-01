@@ -15,7 +15,6 @@ include '../settings.php';
 // Pobierz informacje o zalogowanym użytkowniku
 $username = $_SESSION['username'];
 
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -27,6 +26,13 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $userId = $row['id'];
     $userRole = $row['role'];
+
+    // Sprawdź, czy zalogowany użytkownik to admin
+    if ($userRole !== 'admin') {
+        // Użytkownik nie ma uprawnień do edytowania innych profili
+        header("Location: /phpsql/pages/profile.php");
+        exit;
+    }
 } else {
     // Użytkownik nie istnieje w bazie danych (coś poszło nie tak)
     header("Location: /phpsql/pages/login.php");
@@ -68,7 +74,7 @@ $conn->close();
     <?php include '../includes/header.php'; ?>
 
     <div class="container width_30">
-        <h2 class = 'login_h2'>Edytuj Profil</h2>
+        <h2 class="login_h2">Edytuj Profil</h2>
 
         <?php
         if (isset($error_message)) {
@@ -76,19 +82,19 @@ $conn->close();
         }
         ?>
 
-        <form class = 'flex_column gap_5' action="edit_profile.php" method="post">
-        <div class="flex_column gap_4">  
-            <label for="new_username">Nowa Nazwa Użytkownika:</label>
-            <input type="text" name="new_username" value="<?php echo $username; ?>" required>
-        </div>
+        <form class="flex_column gap_5" action="edit_profile.php" method="post">
+            <div class="flex_column gap_4">  
+                <label for="new_username">Nowa Nazwa Użytkownika:</label>
+                <input type="text" name="new_username" value="<?php echo $username; ?>" required>
+            </div>
         
-        <div class="flex_column gap_4">  
-            <label for="new_role">Nowa Rola:</label>
-            <select name="new_role">
-                <option value="user" <?php if ($userRole == 'user') echo 'selected'; ?>>Użytkownik</option>
-                <option value="admin" <?php if ($userRole == 'admin') echo 'selected'; ?>>Administrator</option>
-            </select>
-        </div>
+            <div class="flex_column gap_4">  
+                <label for="new_role">Nowa Rola:</label>
+                <select name="new_role">
+                    <option value="user" <?php if ($userRole == 'user') echo 'selected'; ?>>Użytkownik</option>
+                    <option value="admin" <?php if ($userRole == 'admin') echo 'selected'; ?>>Administrator</option>
+                </select>
+            </div>
             <button type="submit">Zapisz Zmiany</button>
         </form>
     </div>
