@@ -20,18 +20,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     include('../settings.php');
 
-    // Zaktualizuj dane kursu w bazie danych
-    $sql = "UPDATE courses SET title='$title', description='$description' WHERE id=$course_id";
+    // Sprawdź, czy użytkownik jest twórcą kursu
+    $checkCreatorSql = "SELECT creator_id FROM courses WHERE id=$course_id";
+    $result = $conn->query($checkCreatorSql);
 
-    if ($conn->query($sql) === TRUE) {
-        echo "Zmiany zostały zapisane pomyślnie";
+    if ($result->num_rows > 0) {
+        $courseData = $result->fetch_assoc();
+        $creator_id = $courseData['creator_id'];
+
+        // Jeśli użytkownik nie jest twórcą kursu, przekieruj do panelu administratora
+        if ($_SESSION['user_id'] !== $creator_id) {
+            header("Location: /phpsql/pages/admin_panel.php");
+            exit;
+        }
+
+        // Zaktualizuj dane kursu w bazie danych
+        $updateSql = "UPDATE courses SET title='$title', description='$description' WHERE id=$course_id";
+
+        if ($conn->query($updateSql) === TRUE) {
+            echo "Zmiany zostały zapisane pomyślnie";
+        } else {
+            echo "Błąd podczas zapisywania zmian: " . $conn->error;
+        }
+
     } else {
-        echo "Błąd podczas zapisywania zmian: " . $conn->error;
+        echo "Błąd podczas sprawdzania twórcy kursu";
     }
 
     // Zamknij połączenie z bazą danych
     $conn->close();
 }
-    header("Location: /phpsql/pages/manage_courses.php");
-    exit;
+header("Location: /phpsql/pages/manage_courses.php");
+exit;
 ?>
