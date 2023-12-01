@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS courses (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     creator_id INT NOT NULL,
-    FOREIGN KEY (creator_id) REFERENCES users(id)
+    FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Tabela ocen kursów
@@ -27,11 +27,10 @@ CREATE TABLE IF NOT EXISTS course_ratings (
     course_id INT NOT NULL,
     user_id INT NOT NULL,
     rating INT NOT NULL,
-    FOREIGN KEY (course_id) REFERENCES courses(id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE(course_id, user_id) -- Zapewnia, że jeden użytkownik może ocenić dany kurs tylko raz
 );
-
 
 -- Tabela ukończonych kursów przez użytkowników
 CREATE TABLE IF NOT EXISTS completed_courses (
@@ -39,11 +38,10 @@ CREATE TABLE IF NOT EXISTS completed_courses (
     user_id INT NOT NULL,
     course_id INT NOT NULL,
     completion_date DATE NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (course_id) REFERENCES courses(id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- Dodano ON DELETE CASCADE
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE, -- Dodano ON DELETE CASCADE
     UNIQUE(user_id, course_id) -- Zapewnia, że jeden użytkownik może ukończyć dany kurs tylko raz
 );
-
 
 -- Trigger do automatycznego wpisywania completion date po ukończeniu kursu
 DELIMITER //
