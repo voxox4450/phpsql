@@ -4,7 +4,7 @@ session_start();
 
 // Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+    header("Location: /phpsql/pages/login.php");
     exit;
 }
 
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
     // Sprawdź, czy użytkownik nie próbuje usunąć samego siebie
     if ($user_id == $_SESSION['user_id']) {
         $_SESSION['error_message'] = "Nie możesz usunąć swojego własnego konta.";
-        header("Location: admin_panel.php");
+        header("Location: /phpsql/pages/admin_panel.php");
         exit;
     }
 
@@ -31,11 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
     $_SESSION['success_message'] = "Użytkownik został pomyślnie usunięty.";
 
     // Przekieruj z powrotem do panelu administratora
-    header("Location: admin_panel.php");
+    header("Location: /phpsql/pages/admin_panel.php");
     exit;
 } else {
     $_SESSION['error_message'] = "Nieprawidłowe żądanie usuwania użytkownika.";
-    header("Location: admin_panel.php");
+    header("Location: /phpsql/pages/admin_panel.php");
     exit;
 }
 ?>
