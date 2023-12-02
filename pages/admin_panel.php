@@ -30,10 +30,10 @@ $coursesResult = $conn->query($getCoursesSql);
     <?php include '../includes/header.php'; ?>
 
     <div class="container">
-        <h2>Panel Administratora</h2>
+        <h2 class = 'login_h2'>Panel Administratora</h2>
 
          <!-- Wyświetlanie użytkowników -->
-        <h3>Użytkownicy</h3>
+        <h3 class = 'login_h2'>Użytkownicy</h3>
         <table>
             <tr>
                 <th>ID</th>
@@ -61,7 +61,7 @@ $coursesResult = $conn->query($getCoursesSql);
 
 
         <!-- Wyświetlanie kursów -->
-        <h3>Kursy</h3>
+        <h3 class = 'login_h2'>Kursy</h3>
         <table>
             <tr>
                 <th>ID</th>

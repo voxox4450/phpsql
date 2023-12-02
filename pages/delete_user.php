@@ -26,14 +26,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
     include '../includes/header.php';
     ?>
 
-    <div class="container">
-        <h2>Usuń Użytkownika</h2>
+    <div class="container width_30">
+        <h2 class = 'login_h2'>Usuń Użytkownika</h2>
+        <div class="flex_column gap_4">
         <p>Czy na pewno chcesz usunąć poniższego użytkownika?</p>
         <p>Nazwa użytkownika: <?php echo $username; ?></p>
-        <form action="/phpsql/actions/delete_user_process.php" method="post">
+        <form class = 'flex_column gap_5' action="/phpsql/actions/delete_user_process.php" method="post">
             <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
             <button type="submit">Usuń</button>
         </form>
+        </div>
     </div>
 
     <?php

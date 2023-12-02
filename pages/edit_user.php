@@ -55,18 +55,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <?php include '../includes/header.php'; ?>
 
-    <div class="container">
-        <h2>Edytuj Użytkownika</h2>
+    <div class="container width_30">
+        <h2 class = 'login_h2'>Edytuj Użytkownika</h2>
 
-        <form action="" method="post">
+        <form class = 'flex_column gap_5' action="" method="post">
             <label for="username">Nazwa użytkownika: <?php echo $userData['username']; ?></label>
             <input type="hidden" name="username" value="<?php echo $userData['username']; ?>" disabled>
-
+            <div class="flex_column gap_4">
             <label for="role">Rola:</label>
             <select name="role">
                 <option value="user" <?php echo ($userData['role'] === 'user') ? 'selected' : ''; ?>>Użytkownik</option>
                 <option value="admin" <?php echo ($userData['role'] === 'admin') ? 'selected' : ''; ?>>Administrator</option>
             </select>
+            </div>
 
             <button type="submit">Zapisz</button>
         </form>

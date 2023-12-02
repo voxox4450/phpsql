@@ -37,16 +37,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
     include '../includes/header.php';
     ?>
 
-    <div class="container">
-        <h2>Usuń Kurs</h2>
+    <div class="container width_30">
+        <h2 class = 'login_h2'>Usuń Kurs</h2>
+        <div class="flex_column gap_4">
         <p>Czy na pewno chcesz usunąć poniższy kurs?</p>
         <p>Tytuł: <?php echo $title; ?></p>
         <p>Opis: <?php echo $description; ?></p>
         <p>Twórca: <?php echo $creator_name; ?></p>
-        <form action="/phpsql/actions/delete_course_process.php" method="post">
+        <form class = 'flex_column gap_5' action="/phpsql/actions/delete_course_process.php" method="post">
             <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
             <button type="submit">Usuń</button>
         </form>
+        </div>
     </div>
 
     <?php
