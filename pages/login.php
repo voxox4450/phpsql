@@ -24,9 +24,7 @@
         </div>
             <button type="submit">Zaloguj się</button>
         </form>
-    </div>
-
-    <?php
+        <?php
         // Sprawdź, czy sesja zawiera komunikat o błędzie
         if (isset($_SESSION['error_message'])) {
             echo '<p class="error">' . $_SESSION['error_message'] . '</p>';
@@ -42,6 +40,7 @@
         }
         ?>
 
+    </div>
     <?php include '../includes/footer.php'; ?>
 </body>
 </html>
