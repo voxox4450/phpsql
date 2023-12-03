@@ -26,10 +26,10 @@ if ($userDataResult->num_rows === 0) {
 
 $userData = $userDataResult->fetch_assoc();
 
+
 // Obsługa edycji danych użytkownika
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newRole = $_POST['role'];
-
     // Zaktualizuj rolę użytkownika
     $updateRoleSql = "UPDATE users SET role = '$newRole' WHERE id = $userId";
 
