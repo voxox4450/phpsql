@@ -58,7 +58,7 @@ if (!mysqli_select_db($conn, $dbname)) {
     // Utwórz bazę danych, jeśli nie istnieje
     $createDbSql = "CREATE DATABASE IF NOT EXISTS $dbname";
     if (mysqli_query($conn, $createDbSql)) {
-        echo "Database created successfully\n";
+        //echo "Database created successfully\n";
     } else {
         die("Error creating database: " . mysqli_error($conn));
     }
@@ -79,14 +79,14 @@ if (!mysqli_select_db($conn, $dbname)) {
                 mysqli_free_result($result);
             }
         } while (mysqli_next_result($conn));
-        echo "Tables created successfully\n";
+        //echo "Tables created successfully\n";
 
         // Dodaj użytkownika admina
         $adminUsername = "admin";
         $adminPassword = password_hash("admin", PASSWORD_DEFAULT);
         $insertAdminSql = "INSERT INTO users (username, password, role) VALUES ('$adminUsername', '$adminPassword', 'admin')";
         if (mysqli_query($conn, $insertAdminSql)) {
-            echo "Admin user added successfully\n";
+            //echo "Admin user added successfully\n";
         } else {
             echo "Error adding admin user: " . mysqli_error($conn);
         }
