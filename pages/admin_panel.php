@@ -73,6 +73,7 @@ $coursesResult = $conn->query($getCoursesSql);
                 <th>Akcje</th>
             </tr>
             <?php while ($course = $coursesResult->fetch_assoc()) : ?>
+                
                 <tr>
                     <td><?php echo $course['id']; ?></td>
                     <td><?php echo $course['title']; ?></td>
@@ -82,6 +83,7 @@ $coursesResult = $conn->query($getCoursesSql);
                         <a href="delete_course.php?id=<?php echo $course['id']; ?>">Usuń</a>
                     </td>
                 </tr>
+                
             <?php endwhile; ?>
         </table>
     </div>
