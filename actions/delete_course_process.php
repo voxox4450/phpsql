@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
 
     if ($stmtCourse->affected_rows > 0) {
         // Pomyślne usunięcie kursu, przekieruj na stronę z zarządzaniem kursami  
-        if ($_SESSION['user_id'] !== $creator_id) {
+        if ($_SESSION['user_id'] != $creator_id) {
             header("Location: /phpsql/pages/admin_panel.php");
             exit;
         }    
