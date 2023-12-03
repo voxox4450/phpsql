@@ -33,7 +33,7 @@ $coursesResult = $conn->query($getCoursesSql);
         <h2 class = 'login_h2'>Panel Administratora</h2>
 
          <!-- Wyświetlanie użytkowników -->
-        <h3 class = 'login_h2'>Użytkownicy</h3>
+        <h3 class='login_h2'>Użytkownicy</h3>
         <table>
             <tr>
                 <th>ID</th>
@@ -47,10 +47,12 @@ $coursesResult = $conn->query($getCoursesSql);
                     <td><?php echo $user['username']; ?></td>
                     <td><?php echo $user['role']; ?></td>
                     <td>
-                        <a href="edit_user.php?id=<?php echo $user['id']; ?>">Edytuj</a>
                         <?php
-                        // Dodaj link do usuwania użytkownika, jeśli to nie jest aktualnie zalogowany użytkownik
                         if ($_SESSION['user_id'] != $user['id']) {
+                            // Dodaj link do edycji użytkownika tylko jeśli to nie jest aktualnie zalogowany użytkownik
+                            echo '<a href="edit_user.php?id=' . $user['id'] . '">Edytuj</a>';
+
+                            // Dodaj link do usuwania użytkownika tylko jeśli to nie jest aktualnie zalogowany użytkownik
                             echo '<a href="delete_user.php?id=' . $user['id'] . '">Usuń</a>';
                         }
                         ?>
@@ -58,6 +60,7 @@ $coursesResult = $conn->query($getCoursesSql);
                 </tr>
             <?php endwhile; ?>
         </table>
+
 
 
         <!-- Wyświetlanie kursów -->
