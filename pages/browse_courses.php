@@ -32,7 +32,7 @@ if ($conn->connect_error) {
     <?php include '../includes/header.php'; ?>
 
     <div class="container">
-        <h2>Dostępne Kursy</h2>
+        <h2 class ='login_h2'>Dostępne Kursy</h2>
 
         <?php
         $sql = "SELECT courses.*, users.username as creator_name FROM courses JOIN users ON courses.creator_id = users.id";

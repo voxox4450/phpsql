@@ -4,7 +4,7 @@ session_start();
 
 // Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+    header("Location: /phpsql/pages/login.php");
     exit;
 }
 

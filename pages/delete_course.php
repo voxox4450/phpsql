@@ -54,6 +54,4 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
     <?php
     include '../includes/footer.php';
 }
-
-$conn->close();
 ?>
